@@ -1,0 +1,28 @@
+doctype html
+html
+	head
+		link(rel='stylesheet', href='../stylesheets/style.css')
+		title= title
+		//- script(src='/javascripts/modules/dashboardM0d.js')
+
+	body
+		include partials/header.pug
+		div(style='display:block; margin:0 0 2.5rem 2.5rem')
+			a(href='/retailCalcPassport', style="margin-bottom: 5rem") Retail Calculator
+			|
+			|
+			a(href="/users/logout") Logout
+		div.input-field-1
+			h3(style="margin-top: 0")= title
+
+			p Username: #{username}
+			p Email: #{userEmail}
+
+			if userEmail_stringified
+				script.
+					localStorage.clear()
+					localStorage.setItem('userEmail_localStorage', !{userEmail_stringified})
+					console.log('localStorage from pug==>', localStorage)
+
+			script(src='/javascripts/modules/adminM0d.js')
+

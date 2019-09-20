@@ -1,0 +1,169 @@
+doctype html
+html
+	head
+		link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+
+	body
+		include partials/header.pug
+		div(style='display:block; margin:0 0 2.5rem 2.5rem')
+			a(href="/users/logout") Logout
+		div.input-field-1
+			form#loadTable(action='/retailCalcPassport/loadTable' method='POST' accept-charset="UTF-8")
+				thead
+					tr
+						td
+							label.input-label-1(for='crtTblName') Table Name to Load
+							input#ldTblName.input-unit-1(type='text', placeholder='enter data', name='ldTblNamePost', value='')
+						
+			if loadedTable !== undefined
+				- console.log('loadedTable===--->', loadedTable)
+				- console.log('FieldArray==--->', FieldArray)
+				//- for thingy in FieldArray
+				//- 	td #{thingy}
+				td
+					input#ldTblName.input-unit-1(type='text', placeholder='enter data', name='ldTblNamePost', readonly, style="background-color:#c2d6d6", value=loadedTable.tableNameToLoad)
+				td
+					input#ldTblFields.input-unit-1(type='text', placeholder='enter data', name='ldTblFieldsPost', readonly, style="background-color:#c2d6d6", value=loadedTable.tableFields)
+			button#ldTblBtn(type='submit', form='loadTable', style="display: block; float: left") Load Table
+			br
+			if loadedTable !== undefined
+				- console.log('loadedTable==>', loadedTable)
+				- console.log('loadedTable.tableLoadError.length==>', loadedTable.tableLoadError.length)
+				p= 'Loaded Table: ' + loadedTable.tableNameToLoad
+				p Errors:
+				if loadedTable.tableLoadError.length > 0
+					each thing in loadedTable.tableLoadError
+						- console.log('thing==>', thing)
+						p= thing
+			form#createTable(action='/retailCalcPassport/createTable' method='POST' accept-charset="UTF-8")
+				thead
+					tr
+						td
+							label.input-label-1(for='crtTblName') Enter Table Name
+							input#crtTblName.input-unit-1(type='text', placeholder='enter data', name='tblNamePost', value='')
+						td
+							label.input-label-1(for='crtTblInput') Enter Table Headers (as csv)
+							input#crtTblInput.input-unit-1(type='text', placeholder='enter data', name='crtTblPost', value='')
+			button#crtTblBtn(type='submit', form='createTable', style="display: block; float: left") Create Table
+			br
+			if sqlTableCreated !== undefined
+				- console.log(`sqlTableCreated.columnNames==> ${sqlTableCreated.columnNames}`)
+				p= 'Created Table: ' + sqlTableCreated.tableName
+				p Column Names:
+				each elmnt in sqlTableCreated.basicColumnNames
+					p= elmnt
+			br
+			form#populateTable(ref="populateTable" action='/retailCalcPassport/populateTable' method='POST' encType="multipart/form-data" accept-charset="UTF-8")
+				thead
+					tr
+						td
+							label.input-label-1(for='popTbl') Populate Table
+							input#popTbl.input-unit-1(type='file', name='popTblPost')
+						td
+							label.input-label-1(for='popTblName') Table to Populate
+							input#popTblName.input-unit-1(type='text', name='popTblNamePost')
+			button#popTblBtn(type='submit', form='populateTable', style="display: block; float: left") Populate Table
+
+			h3(style="margin-top: 0")= title
+			if sqlTablePopulated !== undefined
+				p= 'Table Populated: ' + sqlTablePopulated.tablePopulated
+			form#retailCalcPassport(action='/retailCalcPassport/results' method='POST' accept-charset="UTF-8")
+				thead
+					tr
+						if sqlTableCreated !== undefined
+							td
+								input#tblColumnNames.input-unit-1(type='text', placeholder='enter data', name='tblColumnNamesPost', readonly, style="background-color:#c2d6d6", value=sqlTableCreated.basicColumnNames)
+							td
+								input#tblPopulated.input-unit-1(type='text', placeholder='enter data', name='tblPopulatedPost', readonly, style="background-color:#c2d6d6", value=sqlTableCreated.tableName)
+						if loadedTable !== undefined
+							td
+								input#tblNameToPost.input-unit-1(type='text', placeholder='enter data', name='tblNameToPostPost', readonly, style="background-color:#c2d6d6", value=loadedTable.tableNameToLoad)
+							td
+								input#fldArrToPost.input-unit-1(type='text', placeholder='enter data', name='fldArrToPostPost', readonly, style="background-color:#c2d6d6", value=loadedTable.tableFields)
+						td
+							label.input-label-1(for='setMarg') Initial Margin to Apply
+							input#setMarg.input-unit-1(type='number', placeholder='enter margin as decimal', step='.01', name='setMargPost')
+						td
+							label.input-label-1(for='charmLower') Charm - Lower
+							input#charmLower.input-unit-1(type='number', placeholder='enter margin as decimal', step='.01', name='charmLowerPost')
+						td
+							label.input-label-1(for='charmUpper') Charm - Upper
+							input#charmUpper.input-unit-1(type='number', placeholder='enter margin as decimal', step='.01', name='charmUpperPost')
+						td
+							input#prKy.input-unit-1(type='text', placeholder='enter data', name='prKyPost', value='', style="display: none")
+						td
+							label.input-label-1(for='upc') UPC
+							input#upc.input-unit-1(type='text', placeholder='enter data', name='upcPost', value='')
+						td
+							label.input-label-1(for='sku') SKU
+							input#sku.input-unit-1(type='text', placeholder='enter data', name='skuPost', value='')
+						td
+							label.input-label-1(for='descr') Description
+							input#descr.input-unit-1(type='text', placeholder='enter data', name='descrPost', value='')
+						td
+							label.input-label-1(for='updtWS') Updted WS
+							input#updtWS.input-unit-1(type='text', placeholder='enter data', name='updtWSPost', value='')
+						td
+							label.input-label-1(for='rbMarg') RB Margin
+							input#rbMarg.input-unit-1(type='text', placeholder='enter data', name='rbMargPost', value='')
+						td
+							label.input-label-1(for='rtlReqd') Retail Required
+							input#rtlReqd.input-unit-1(type='text', placeholder='enter data', name='rtlReqdPost', value='')
+						td
+							label.input-label-1(for='msrp') MSRP
+							input#msrp.input-unit-1(type='text', placeholder='enter data', name='msrpPost', value='')
+
+			button#searchDB(type='submit', form='retailCalcPassport', style="display: block; float: left") Search Loaded Table
+			br
+			br
+			button.adminButton#saveCSV(type="submit" form="saveCSVPost") Save Results as CSV
+			form#saveCSVPost(action='/retailCalcPassport/saveCSV' method='POST' accept-charset='UTF-8')
+				label.input-label-1(for='csv') filename:
+					input#csv.input-unit-1(type='text', placeholder='enter filename here', name='csvPost', value='')
+				if loadedTable !== undefined
+					label.input-label-1(for='csvHeaders') CSV headers:
+						input#csvHeaders.input-unit-1(type='text', placeholder='enter data', name='csvHeadersPost', readonly, style="background-color:#c2d6d6", value=loadedTable.tableFields)
+
+		div.rslt-tbl-1
+			table#resTbl
+				button#editDB(style="display: inline-block") Edit Selection
+				button.adminButton#deleteSelection(style="display: inline-block") Delete Selection
+				thead
+					tr
+						th(onclick="sortTable(0)") Primary Key
+						th(onclick="sortTable(1)") UPC
+						th(onclick="sortTable(2)") SKU
+						th(onclick="sortTable(3)") Description
+						th(onclick="sortTable(4)") Updated WS
+						th(onclick="sortTable(5)") RB Margin
+						th(onclick="sortTable(6)") Retail Required
+						th(onclick="sortTable(7)") Charm Price
+						th(onclick="sortTable(8)") MSRP
+
+
+				tbody#resTblBdy
+					if searchResRows !== undefined
+						each elmnt in searchResRows
+							tr
+								td= elmnt.P_K
+								td= elmnt.upc
+								td= elmnt.sku
+								td= elmnt.name
+								td= elmnt.cost
+								td= elmnt.rbMargin
+								td= elmnt.reqdRetail
+								td= elmnt.charm
+								td= elmnt.msrp
+									//- label.input-label-1(for='mrgnVl') margin value
+									//- input#mrgVl.input-unit-1(type='number', placeholder='0', name='mrgVldPost', value='')
+
+
+		//- script(src='/javascripts/dbEditPassport.js')
+		//- script(src='/javascripts/modules/sortTableM0d.js')
+		//- script(src='/javascripts/modules/tblHiliteM0d.js')
+		//- script(src='/javascripts/modules/dateCalcM0d.js')
+		//- script(src='/javascripts/modules/editDBM0d.js')
+		//- script(src='/javascripts/modules/saveCSVM0d.js')
+		//- script(src='/javascripts/modules/deleteSelectionM0d.js')
+		//- script(src='/javascripts/modules/adminM0d.js')
+		//- script(src='/javascripts/modules/loadTableM0d.js')

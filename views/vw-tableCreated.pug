@@ -1,0 +1,17 @@
+doctype html
+html
+	head
+		link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+
+	body
+		include partials/header.pug
+		div(style='display:block; margin:0 0 2.5rem 2.5rem')
+			a(href="/users/logout") Logout
+		div.input-field-1
+			if sqlTableCreated !== undefined
+				- console.log(`sqlTableCreated.columnNames==> ${sqlTableCreated.columnNames}`)
+				p= sqlTableCreated.tableName
+				each elmnt in sqlTableCreated.columnNames
+					p= elmnt
+
+			h3(style="margin-top: 0")= title
