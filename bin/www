@@ -20,6 +20,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+server.timeout = 1800000; //set timeout to 30 minutes to allow for large CSV imports --t0d
 
 /**
  * Listen on provided port, on all network interfaces.

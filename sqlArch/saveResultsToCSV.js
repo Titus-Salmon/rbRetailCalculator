@@ -23,7 +23,13 @@ module.exports = {
     } = require('json2csv');
 
     const fields = [
-      'P_K', 'upc', 'sku', 'name', 'cost', 'msrp', 'rbMargin', 'reqdRetail', 'charm'
+      // 'P_K', 'upc', 'sku', 'name', 'cost', 'msrp', 'rbMargin', 'reqdRetail', 'charm',
+      // 'upc', 'deptID', 'deptName', 'rcptAlias', 'brand', 'itemName', 'size', 'sugstdRtl', 'lastCost', 'charm', 'autoDiscount', 'dscMltplr',
+      // 'idealMarg', 'wtPrfl', 'tax1', 'tax2', 'tax3', 'spclTndr1', 'spclTndr2', 'posPrmpt', 'lctn', 'altID', 'altRcptAlias', 'pkgQnt', 'sku',
+      // 'splrID', 'unit', 'numPkgs', 'dsd', 'csPkgMltpl', 'ovr', 'pf1', 'pf2', 'pf3', 'pf4', 'pf5', 'pf6', 'pf7', 'pf8', 'onhndQnt', 'rdrPnt', 'mcl', 'rdrQnt', 'flrRsn'
+      "upc", "deptID", "deptName", "rcptAlias", "brand", "itemName", "size", "sugstdRtl", "lastCost", "charm", "autoDiscount", "idealMarg", "wtPrfl", "tax1",
+      "tax2", "tax3", "spclTndr1", "spclTndr2", "posPrmpt", "lctn", "altID", "altRcptAlias", "pkgQnt", "sku", "splrID", "unit", "numPkgs", "pf1", "pf2", "pf3",
+      "pf4", "pf5", "pf6", "pf7", "pf8", "onhndQnt", "rdrPnt", "mcl", "rdrQnt", "memo", "flrRsn", "dsd", "dscMltplr", "csPkgMltpl", "ovr"
     ];
     const opts = {
       fields

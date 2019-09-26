@@ -25,6 +25,10 @@ const {
   saveResultsToCSV
 } = require('../sqlArch/saveResultsToCSV')
 
+const {
+  save2CSVReview
+} = require('../sqlArch/save2CSVreview')
+
 // const mysql = require('mysql')
 // const connection = mysql.createConnection({
 //   host: process.env.RETAILCALC_HOST,
@@ -51,6 +55,7 @@ router.post('/populateTable', populateTable)
 router.post('/results', searchEditCalc)
 router.post('/loadTable', loadTable)
 router.post('/saveCSV', saveResultsToCSV)
+router.post('/saveCSVreview', save2CSVReview)
 
 //--v////CURRENTLY NOT BEING USED & DB NOT CORRECT//////////////////////////////////////////////////////////////////////
 router.post('/deleteSelection', (req, res, next) => { //take POST request data from vw-dbEditPassport page & delete from database table

@@ -54,6 +54,7 @@ module.exports = {
       })
       .on("end", function () {
         myData.shift();
+
         let query2 = 'REPLACE INTO ' + tableToPopulate + ' (' + columnHeaderArray + ') VALUES ?';
         connection.query(query2, [myData], (error, response) => {
           console.log(error || response);
