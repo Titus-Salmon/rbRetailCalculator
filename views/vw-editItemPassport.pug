@@ -1,0 +1,54 @@
+doctype html
+html
+	head
+		link(rel='stylesheet', href='/stylesheets/style.css')
+
+	body
+		include partials/header.pug
+		//- include partials/subHeader.pug
+		div.input-field-1
+			h3(style="margin-top: 0")= title
+
+			form#editItemPassport(action='/editItemPassport/formPost' method='POST' accept-charset="UTF-8")
+				thead
+					tr
+						td
+							input#prKy(type='text', name='prKyPost', style="display: none")
+						td
+							label.input-label-1(for='sqlTblNm') Loaded Table Name for connection.query()
+							input.adminForm#sqlTblNm.input-unit-1(type='text', placeholder='enter data', name='sqlTblNmPost', required='', value=loadedSqlTbl)
+						td
+							label.input-label-1(for='edtItmUPC') UPC
+							input.adminForm#edtItmUPC.input-unit-1(type='text', placeholder='enter data', name='edtItmUPCPost', required='')
+						td
+							label.input-label-1(for='edtItmSKU') SKU
+							input.adminForm#edtItmSKU.input-unit-1(type='text', placeholder='enter data', name='edtItmSKUPost', required='', value='')
+						td
+							label.input-label-1(for='edtItmDescr') Description
+							input.adminForm#edtItmDescr.input-unit-1(type='text', placeholder='enter data', name='edtItmDescrPost', required='', value='')
+						td
+							label.input-label-1(for='edtItmUpdtWS') Updated WS
+							input.adminForm#edtItmUpdtWS.input-unit-1(type='text', placeholder='enter data', name='edtItmUpdtWSPost', required='', value='')
+						td
+							label.input-label-1(for='edtItmGlbMrg') Global Margin
+							input.adminForm#edtItmGlbMrg.input-unit-1(type='text', placeholder='enter data', name='edtItmGlbMrgPost', required='', value='')
+						td
+							label.input-label-1(for='edtItmRtlRqd') Retail Required
+							input.adminForm#edtItmRtlRqd.input-unit-1(type='text', placeholder='enter data', name='edtItmRtlRqdPost', required='', value='')
+						td
+							label.input-label-1(for='edtItmCharm') Charm Price
+							input.adminForm#edtItmCharm.input-unit-1(type='text', placeholder='enter data', name='edtItmCharmPost', value='')
+						td
+							label.input-label-1(for='edtItmMSRP') MSRP
+							input#edtItmMSRP.input-unit-1(type='text', placeholder='enter data', name='edtItmMSRPPost', value='')
+						td
+							label.input-label-1(for='edtItmRB_dept') rb_dept
+							input.adminForm#edtItmRB_dept.input-unit-1(type='text', placeholder='enter data', name='edtItmRB_deptPost', value='')
+						td
+							label.input-label-1(for='priceOverride') Price Override
+							input.adminForm#priceOverride.input-unit-1(type='text', placeholder='enter data', name='priceOverridePost', value='')
+
+			button(type='submit', form='editItemPassport', style="display: block; float: left") Submit
+
+		script(src='/javascripts/editItemPassport.js')
+		script(src='/javascripts/modules/adminM0d.js')

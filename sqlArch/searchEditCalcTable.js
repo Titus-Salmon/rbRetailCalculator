@@ -27,6 +27,8 @@ module.exports = {
     console.log('postBody[\'fldArrToPostPost\']==>', postBody['fldArrToPostPost'])
     console.log('postBody[\'fldArrToPostPost\'][0]==>', postBody['fldArrToPostPost'][0])
 
+    let loadedSqlTbl = postBody['tblNameToPostPost']
+
     let globalMargin = postBody['globalMargPost']
 
     let beerAlcMargin = postBody['beerAlcMargPost']
@@ -62,22 +64,46 @@ module.exports = {
     let wlnsPrctTipsMargin = postBody['wlnsPrctTipsMargPost']
     let wlnsPrctMargin = postBody['wlnsPrctMargPost']
 
-    let lowerCutRqdRtl = postBody['lowerCutRqdRtlPost']
+    let lowerCutRqdRtlAndrea = postBody['lowerCutRqdRtlAndreaPost']
+    let lowerCutRqdRtlBrad = postBody['lowerCutRqdRtlBradPost']
 
-    let lowerCutoffCharm1 = postBody['lowerCutoffCharm1Post']
-    let lowerCutoffCharm2 = postBody['lowerCutoffCharm2Post']
-    let lowerCutoffCharm3 = postBody['lowerCutoffCharm3Post']
-    let lowerCutoffCharm4 = postBody['lowerCutoffCharm4Post']
-    let lowerCutoffCharm5 = postBody['lowerCutoffCharm5Post']
-    let lowerCutoffCharm6 = postBody['lowerCutoffCharm6Post']
-    let lowerCutoffCharm7 = postBody['lowerCutoffCharm7Post']
+    let lowerCutoffCharm1Andrea = postBody['lowerCutoffCharm1AndreaPost']
+    let lowerCutoffCharm1Brad = postBody['lowerCutoffCharm1BradPost']
 
-    let upperCharmRqdRtl = postBody['upperCharmRqdRtlPost']
+    let lowerCutoffCharm2Andrea = postBody['lowerCutoffCharm2AndreaPost']
+    let lowerCutoffCharm2Brad = postBody['lowerCutoffCharm2BradPost']
 
-    let defaultCharm1 = postBody['defaultCharm1Post']
-    let defaultCharm2 = postBody['defaultCharm2Post']
-    let defaultCharm3 = postBody['defaultCharm3Post']
-    let defaultCharm4 = postBody['defaultCharm4Post']
+    let lowerCutoffCharm3Andrea = postBody['lowerCutoffCharm3AndreaPost']
+    let lowerCutoffCharm3Brad = postBody['lowerCutoffCharm3BradPost']
+
+    let lowerCutoffCharm4Andrea = postBody['lowerCutoffCharm4AndreaPost']
+    let lowerCutoffCharm4Brad = postBody['lowerCutoffCharm4BradPost']
+
+    let lowerCutoffCharm5Andrea = postBody['lowerCutoffCharm5AndreaPost']
+    let lowerCutoffCharm5Brad = postBody['lowerCutoffCharm5BradPost']
+
+    let lowerCutoffCharm6Andrea = postBody['lowerCutoffCharm6AndreaPost']
+    let lowerCutoffCharm6Brad = postBody['lowerCutoffCharm6BradPost']
+
+    let lowerCutoffCharm7Andrea = postBody['lowerCutoffCharm7AndreaPost']
+    let lowerCutoffCharm7Brad = postBody['lowerCutoffCharm7BradPost']
+
+    let upperCharmRqdRtlAndrea = postBody['upperCharmRqdRtlAndreaPost']
+    let upperCharmRqdRtlBrad = postBody['upperCharmRqdRtlBradPost']
+
+    let defaultCharm1Andrea = postBody['defaultCharm1AndreaPost']
+    let defaultCharm1Brad = postBody['defaultCharm1BradPost']
+
+    let defaultCharm2Andrea = postBody['defaultCharm2AndreaPost']
+    let defaultCharm2Brad = postBody['defaultCharm2BradPost']
+
+    let defaultCharm3Andrea = postBody['defaultCharm3AndreaPost']
+    let defaultCharm3Brad = postBody['defaultCharm3BradPost']
+
+    let defaultCharm4Andrea = postBody['defaultCharm4AndreaPost']
+    let defaultCharm4Brad = postBody['defaultCharm4BradPost']
+
+    let discountToApply = postBody['discountToApplyPost']
 
 
     //v//sanitize table column header post results from #retailCalcPassport form ('Search Loaded Table')
@@ -146,113 +172,105 @@ module.exports = {
         let srcRsObj = {}
         let reviewObj = {} //push data to this obj for review CSV
 
-        function calcCharm(departmentMargin) {
-          // reviewObj['charm'] = srcRsObj['charm']
+        function calcCharm(departmentMargin, lowerCutRqdRtl, lowerCutoffCharm1, lowerCutoffCharm2, lowerCutoffCharm3, lowerCutoffCharm4,
+          lowerCutoffCharm5, lowerCutoffCharm6, lowerCutoffCharm7, upperCharmRqdRtl, defaultCharm1, defaultCharm2, defaultCharm3, defaultCharm4) {
           //apply DEPARTMENT margin to calculate charm pricing
           if (srcRsObj['cost'] > 0) {
-            srcRsObj['reqdRetail'] = reviewObj['reqdRetail'] = (-(srcRsObj['cost']) / (departmentMargin - 1)) //applies margin to WS
-
-            if (srcRsObj['reqdRetail'] > 0) {
-              if (srcRsObj['reqdRetail'] < lowerCutRqdRtl) {
-                if ((srcRsObj['reqdRetail'] % 1) < .20) {
-                  if (lowerCutoffCharm1 > 0) {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm1
-                  } else {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm2
-                  }
-                }
-                if ((srcRsObj['reqdRetail'] % 1) < .30) {
-                  if (lowerCutoffCharm2 > 0) {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm2
-                  } else {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm3
-                  }
-                }
-                if ((srcRsObj['reqdRetail'] % 1) < .40) {
-                  if (lowerCutoffCharm3 > 0) {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm3
-                  } else {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm4
-                  }
-                }
-                if ((srcRsObj['reqdRetail'] % 1) < .50) {
-                  if (lowerCutoffCharm4 > 0) {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm4
-                  } else {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm5
-                  }
-                }
-                if ((srcRsObj['reqdRetail'] % 1) < .60) {
-                  if (lowerCutoffCharm5 > 0) {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm5
-                  } else {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm6
-                  }
-                }
-                if ((srcRsObj['reqdRetail'] % 1) < .80) {
-                  if (lowerCutoffCharm6 > 0) {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm6
-                  } else {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm7
-                  }
-                }
-                if ((srcRsObj['reqdRetail'] % 1) > .80) {
-                  if (lowerCutoffCharm7 > 0) {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm7
-                  } else {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail']
-                  }
-                }
-              } else {
-                if (srcRsObj['reqdRetail'] < upperCharmRqdRtl) {
-                  if ((srcRsObj['reqdRetail'] % 1) < .30) {
-                    if (defaultCharm1 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm1
+            srcRsObj['reqdRetail'] = reviewObj['reqdRetail'] = (-(srcRsObj['cost'] - srcRsObj['cost'] * discountToApply) / (departmentMargin - 1)) //applies margin to WS
+            //AND also applies any % discount; discountToApply is set at default 0
+            if (srcRsObj['reqdRetail'] % 1 == 0 && srcRsObj['reqdRetail'] > 0) {
+              return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - .01
+            } else {
+              if (srcRsObj['reqdRetail'] > 0) {
+                if (srcRsObj['reqdRetail'] < lowerCutRqdRtl) {
+                  if ((srcRsObj['reqdRetail'] % 1) < .20) {
+                    if (lowerCutoffCharm1 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm1
                     } else {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm2
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm2
+                    }
+                  }
+                  if ((srcRsObj['reqdRetail'] % 1) < .30) {
+                    if (lowerCutoffCharm2 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm2
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm3
                     }
                   }
                   if ((srcRsObj['reqdRetail'] % 1) < .40) {
-                    if (defaultCharm2 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm2
+                    if (lowerCutoffCharm3 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm3
                     } else {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm4
+                    }
+                  }
+                  if ((srcRsObj['reqdRetail'] % 1) < .50) {
+                    if (lowerCutoffCharm4 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm4
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm5
+                    }
+                  }
+                  if ((srcRsObj['reqdRetail'] % 1) < .60) {
+                    if (lowerCutoffCharm5 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm5
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm6
                     }
                   }
                   if ((srcRsObj['reqdRetail'] % 1) < .80) {
-                    if (defaultCharm3 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
+                    if (lowerCutoffCharm6 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm6
                     } else {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm7
                     }
                   }
                   if ((srcRsObj['reqdRetail'] % 1) > .80) {
-                    if (lowerCutoffCharm4 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
+                    if (lowerCutoffCharm7 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm7
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail']
                     }
                   }
-                  // if (srcRsObj['reqdRetail'] % 1 < .5) { //calculate lower and upper charm pricing
-                  //   if (charmLower > 0) {
-                  //     srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + charmLower
-                  //   } else {
-                  //     return srcRsObj['charm'] = srcRsObj['reqdRetail']
-                  //   }
-                  // } else {
-                  //   if (charmUpper > 0) {
-                  //     srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + charmUpper
-                  //   } else {
-                  //     return srcRsObj['charm'] = srcRsObj['reqdRetail']
-                  //   }
-                  // }
                 } else {
-                  return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
+                  if (srcRsObj['reqdRetail'] < upperCharmRqdRtl) {
+                    if ((srcRsObj['reqdRetail'] % 1) < .30) {
+                      if (defaultCharm1 > 0) {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm1
+                      } else {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm2
+                      }
+                    }
+                    if ((srcRsObj['reqdRetail'] % 1) < .40) {
+                      if (defaultCharm2 > 0) {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm2
+                      } else {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
+                      }
+                    }
+                    if ((srcRsObj['reqdRetail'] % 1) < .80) {
+                      if (defaultCharm3 > 0) {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
+                      } else {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
+                      }
+                    }
+                    if ((srcRsObj['reqdRetail'] % 1) > .80) {
+                      if (lowerCutoffCharm4 > 0) {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
+                      }
+                    }
+                  } else {
+                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
+                  }
                 }
               }
-            } else {
-              srcRsObj['reqdRetail'] = null
-              srcRsObj['charm'] = null
             }
+
             // reviewObj['charm'] = srcRsObj['charm']
+          } else {
+            srcRsObj['reqdRetail'] = null
+            srcRsObj['charm'] = null
           }
         }
 
@@ -265,68 +283,69 @@ module.exports = {
         //populate search results onject (srcRsObj) with corresponding primary key mapped to a key of 'P_K' 
         srcRsObj['upc'] = rows[i][genericHeaderObj.upcHeader] //Item ID
         reviewObj['upc'] = rows[i][genericHeaderObj.upcHeader] //Item ID
-        srcRsObj['deptID'] = null //Department ID
-        srcRsObj['deptName'] = null //Department Name
-        srcRsObj['rcptAlias'] = null //Receipt Alias
-        srcRsObj['brand'] = null //Brand
-        srcRsObj['itemName'] = null //Item Name
-        srcRsObj['size'] = null //Size
-        srcRsObj['sugstdRtl'] = null //Suggested Retail
-        srcRsObj['lastCost'] = null //Last Cost
-        // srcRsObj['charm'] = null //Base Price ==>INCLUDE in save2CSVreview export data
-        srcRsObj['autoDiscount'] = null //Auto Discount
+        srcRsObj['deptID'] = "" //Department ID
+        srcRsObj['deptName'] = "" //Department Name
+        srcRsObj['rcptAlias'] = "" //Receipt Alias
+        srcRsObj['brand'] = "" //Brand
+        srcRsObj['itemName'] = "" //Item Name
+        srcRsObj['size'] = "" //Size
+        srcRsObj['sugstdRtl'] = rows[i][genericHeaderObj.msrpHeader] //Suggested Retail
+        srcRsObj['lastCost'] = "" //Last Cost
+        // srcRsObj['charm'] = "" //Base Price ==>INCLUDE in save2CSVreview export data
+        srcRsObj['autoDiscount'] = "" //Auto Discount
 
-        srcRsObj['idealMarg'] = null //Ideal Margin
-        srcRsObj['wtPrfl'] = null //Weight Profile
-        srcRsObj['tax1'] = null //Tax1
-        srcRsObj['tax2'] = null //Tax2
-        srcRsObj['tax3'] = null //Tax3
-        srcRsObj['spclTndr1'] = null //Special Tender 1
-        srcRsObj['spclTndr2'] = null //Special Tender 2
-        srcRsObj['posPrmpt'] = null //POS Prompt
-        srcRsObj['lctn'] = null //Location
-        srcRsObj['altID'] = null //Alternate ID
-        srcRsObj['altRcptAlias'] = null //Alternate Receipt Alias
-        srcRsObj['pkgQnt'] = null //Package Quantity
+        srcRsObj['idealMarg'] = "" //Ideal Margin
+        srcRsObj['wtPrfl'] = "" //Weight Profile
+        srcRsObj['tax1'] = "" //Tax1
+        srcRsObj['tax2'] = "" //Tax2
+        srcRsObj['tax3'] = "" //Tax3
+        srcRsObj['spclTndr1'] = "" //Special Tender 1
+        srcRsObj['spclTndr2'] = "" //Special Tender 2
+        srcRsObj['posPrmpt'] = "" //POS Prompt
+        srcRsObj['lctn'] = "" //Location
+        srcRsObj['altID'] = "" //Alternate ID
+        srcRsObj['altRcptAlias'] = "" //Alternate Receipt Alias
+        srcRsObj['pkgQnt'] = "" //Package Quantity
         srcRsObj['sku'] = rows[i][genericHeaderObj.skuHeader] //Supplier Unit ID
         reviewObj['sku'] = rows[i][genericHeaderObj.skuHeader] //Supplier Unit ID
         srcRsObj['splrID'] = rows[i][genericHeaderObj.rbSupplierHeader] //Supplier ID (EDI-VENDORNAME)
-        srcRsObj['unit'] = null //Unit
-        srcRsObj['numPkgs'] = null //Number of Packages
-        srcRsObj['pf1'] = new Date() //Power Field 1 (today's date)
+        srcRsObj['unit'] = "" //Unit
+        srcRsObj['numPkgs'] = "" //Number of Packages
+        srcRsObj['pf1'] = new Date().toISOString() + " RETAIL UPDATE (pf1)" //Power Field 1 (today's date)
         srcRsObj['pf2'] = rows[i][genericHeaderObj.rbSupplierHeader] //Power Field 2 (Supplier ID (EDI-VENDORNAME) again, for some reason)
         reviewObj['pf2'] = rows[i][genericHeaderObj.rbSupplierHeader] //Power Field 2 (Supplier ID (EDI-VENDORNAME) again, for some reason)
-        srcRsObj['pf3'] = //Power Field 3 try to get department margin
-          // reviewObj['pf3'] = //Power Field 3 revealAppliedMarg()
-          srcRsObj['pf4'] = null //Power Field 4
-        srcRsObj['pf5'] = null //Power Field 5
-        srcRsObj['pf6'] = null //Power Field 6 //EDI-VENDORNAME INCLUDE in save2CSVreview export data
-        reviewObj['pf6'] = null //Power Field 6 //EDI-VENDORNAME INCLUDE in save2CSVreview export data
-        srcRsObj['pf7'] = null //Power Field 7
-        srcRsObj['pf8'] = new Date() + "RETAIL UPDATE" //Power Field 8
+        srcRsObj['pf3'] = "" //Power Field 3 try to get department margin
+        // reviewObj['pf3'] = //Power Field 3 revealAppliedMarg()
+        srcRsObj['pf4'] = "" //Power Field 4
+        srcRsObj['pf5'] = "" //Power Field 5
+        srcRsObj['pf6'] = "" //Power Field 6 //EDI-VENDORNAME INCLUDE in save2CSVreview export data
+        reviewObj['pf6'] = "" //Power Field 6 //EDI-VENDORNAME INCLUDE in save2CSVreview export data
+        srcRsObj['pf7'] = "" //Power Field 7
+        srcRsObj['pf8'] = new Date().toISOString() + " RETAIL UPDATE (pf8)" //Power Field 8
 
-        srcRsObj['onhndQnt'] = null //On Hand Quantity
-        srcRsObj['rdrPnt'] = null //Reorder Point
-        srcRsObj['mcl'] = null //Maintain Constant Level
-        srcRsObj['rdrQnt'] = null //Reorder Quantity
+        srcRsObj['onhndQnt'] = "" //On Hand Quantity
+        srcRsObj['rdrPnt'] = "" //Reorder Point
+        srcRsObj['mcl'] = "" //Maintain Constant Level
+        srcRsObj['rdrQnt'] = "" //Reorder Quantity
 
-        srcRsObj['memo'] = null //Memo
+        srcRsObj['memo'] = "" //Memo
 
-        srcRsObj['flrRsn'] = null //Failure Reason
+        srcRsObj['flrRsn'] = "" //Failure Reason
 
-        srcRsObj['dsd'] = null //DSD
+        srcRsObj['dsd'] = "" //DSD
 
-        srcRsObj['dscMltplr'] = null //Discount Multiplier
+        srcRsObj['dscMltplr'] = "" //Discount Multiplier
 
-        srcRsObj['csPkgMltpl'] = null //Case Package Multiple
-        srcRsObj['ovr'] = null //OVR
+        srcRsObj['csPkgMltpl'] = "" //Case Package Multiple
+        // srcRsObj['ovr'] = "" //OVR
+        srcRsObj['ovr'] = "" //OVR
 
 
         srcRsObj['name'] = rows[i][genericHeaderObj.nameHeader] //INCLUDE in save2CSVreview export data
         reviewObj['name'] = rows[i][genericHeaderObj.nameHeader]
         srcRsObj['cost'] = rows[i][genericHeaderObj.costHeader] //INCLUDE in save2CSVreview export data
         reviewObj['cost'] = rows[i][genericHeaderObj.costHeader]
-        srcRsObj['msrp'] = rows[i][genericHeaderObj.msrpHeader] //do not include in csv to export data
+        srcRsObj['msrp'] = rows[i][genericHeaderObj.msrpHeader] //INCLUDE in csv to export data
         srcRsObj['globalMargin'] = globalMargin //do not include in csv to export data
         srcRsObj['rb_dept'] = rows[i][genericHeaderObj.rbDeptHeader] //INCLUDE in save2CSVreview export data
         reviewObj['rb_dept'] = rows[i][genericHeaderObj.rbDeptHeader] //
@@ -343,131 +362,195 @@ module.exports = {
 
         if (srcRsObj['rb_dept_id'] == '54') { //Beer & Alcohol
           //apply Department margin to calculate charm pricing
-          calcCharm(beerAlcMargin)
+          calcCharm(beerAlcMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(beerAlcMargin)
         }
         if (srcRsObj['rb_dept_id'] == '152') { //Body Care
-          calcCharm(bodyCareMargin)
+          calcCharm(bodyCareMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(bodyCareMargin)
         }
         if (srcRsObj['rb_dept_id'] == '9') { //Books
-          calcCharm(booksMargin)
+          calcCharm(booksMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(booksMargin)
         }
         if (srcRsObj['rb_dept_id'] == '19') { //Bulk
-          calcCharm(bulkMargin)
+          calcCharm(bulkMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(bulkMargin)
         }
         if (srcRsObj['rb_dept_id'] == '30') { //Bulk & Herb Prepack
-          calcCharm(bulkHrbPrpkMargin)
+          calcCharm(bulkHrbPrpkMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(bulkHrbPrpkMargin)
         }
         if (srcRsObj['rb_dept_id'] == '175') { //CBD - Grocery
-          calcCharm(cbdGrocMargin)
+          calcCharm(cbdGrocMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(cbdGrocMargin)
         }
         if (srcRsObj['rb_dept_id'] == '176') { //CBD - Supplements
-          calcCharm(cbdSuppMargin)
+          calcCharm(cbdSuppMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(cbdSuppMargin)
         }
         if (srcRsObj['rb_dept_id'] == '177') { //CBD - Topicals
-          calcCharm(cbdTopMargin)
+          calcCharm(cbdTopMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(cbdTopMargin)
         }
         if (srcRsObj['rb_dept_id'] == '148') { //Consignments
-          calcCharm(consignMargin)
+          calcCharm(consignMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(consignMargin)
         }
         if (srcRsObj['rb_dept_id'] == '18') { //Frozen
-          calcCharm(frozenMargin)
+          calcCharm(frozenMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(frozenMargin)
         }
         if (srcRsObj['rb_dept_id'] == '150') { //General Merchandise
-          calcCharm(genMerchMargin)
+          calcCharm(genMerchMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(genMerchMargin)
         }
         if (srcRsObj['rb_dept_id'] == '13') { //Gift Items
-          calcCharm(giftMargin)
+          calcCharm(giftMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(giftMargin)
         }
         if (srcRsObj['rb_dept_id'] == '62') { //Grab & Go
-          calcCharm(grabGoMargin)
+          calcCharm(grabGoMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(grabGoMargin)
         }
         if (srcRsObj['rb_dept_id'] == '25') { //Grocery
-          calcCharm(grocMargin)
+          calcCharm(grocMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(grocMargin)
         }
         if (srcRsObj['rb_dept_id'] == '179') { //Grocery - Local
-          calcCharm(grocLocMargin)
+          calcCharm(grocLocMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(grocLocMargin)
         }
         if (srcRsObj['rb_dept_id'] == '38') { //Grocery - Local Meat
-          calcCharm(grocLcMtMargin)
+          calcCharm(grocLcMtMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(grocLcMtMargin)
         }
         if (srcRsObj['rb_dept_id'] == '17') { //HBA
-          calcCharm(hbaMargin)
+          calcCharm(hbaMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(hbaMargin)
         }
         if (srcRsObj['rb_dept_id'] == '158') { //Herbs & Homeopathic
-          calcCharm(herbsHomeoMargin)
+          calcCharm(herbsHomeoMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(herbsHomeoMargin)
         }
         if (srcRsObj['rb_dept_id'] == '80') { //LifeBar
-          calcCharm(lfBrMargin)
+          calcCharm(lfBrMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(lfBrMargin)
         }
         if (srcRsObj['rb_dept_id'] == '151') { //Other
-          calcCharm(otherMargin)
+          calcCharm(otherMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(otherMargin)
         }
         if (srcRsObj['rb_dept_id'] == '32') { //Produce
-          calcCharm(produceMargin)
+          calcCharm(produceMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(produceMargin)
         }
         if (srcRsObj['rb_dept_id'] == '171') { //Produce - CSA
-          calcCharm(prodCSAMargin)
+          calcCharm(prodCSAMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(prodCSAMargin)
         }
         if (srcRsObj['rb_dept_id'] == '181') { //Produce - Floral
-          calcCharm(prodFlorMargin)
+          calcCharm(prodFlorMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(prodFlorMargin)
         }
         if (srcRsObj['rb_dept_id'] == '178') { //Produce - Local
-          calcCharm(prodLocMargin)
+          calcCharm(prodLocMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(prodLocMargin)
         }
         if (srcRsObj['rb_dept_id'] == '154') { //Produce - Packaged
-          calcCharm(prodPkgMargin)
+          calcCharm(prodPkgMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(prodPkgMargin)
         }
         if (srcRsObj['rb_dept_id'] == '154') { //Produce - Plants
-          calcCharm(prodPlantsMargin)
+          calcCharm(prodPlantsMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(prodPlantsMargin)
         }
         if (srcRsObj['rb_dept_id'] == '174') { //Produce - Prepared
-          calcCharm(prodPrepMargin)
+          calcCharm(prodPrepMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(prodPrepMargin)
         }
         if (srcRsObj['rb_dept_id'] == '170') { //Salad Bar
-          calcCharm(prodSldBrMargin)
+          calcCharm(prodSldBrMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(prodSldBrMargin)
         }
         if (srcRsObj['rb_dept_id'] == '155') { //Refrigerated
-          calcCharm(refrigMargin)
+          calcCharm(refrigMargin, lowerCutRqdRtlBrad, lowerCutoffCharm1Brad, lowerCutoffCharm2Brad, lowerCutoffCharm3Brad,
+            lowerCutoffCharm4Brad, lowerCutoffCharm5Brad, lowerCutoffCharm6Brad, lowerCutoffCharm7Brad, upperCharmRqdRtlBrad,
+            defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
           revealAppliedMarg(refrigMargin)
         }
         if (srcRsObj['rb_dept_id'] == '157') { //Vitamins & Supplements
-          calcCharm(vitSuppMargin)
+          calcCharm(vitSuppMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(vitSuppMargin)
         }
         if (srcRsObj['rb_dept_id'] == '173') { //Wellness Practitioner Tips
-          calcCharm(wlnsPrctTipsMargin)
+          calcCharm(wlnsPrctTipsMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(wlnsPrctTipsMargin)
         }
         if (srcRsObj['rb_dept_id'] == '172') { //Wellness Practitioner Tips
-          calcCharm(wlnsPrctMargin)
+          calcCharm(wlnsPrctMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
+            lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
+            defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
           revealAppliedMarg(wlnsPrctMargin)
         }
 
@@ -518,33 +601,61 @@ module.exports = {
     let formInput32 = Object.values(postBody)[32] //wlnsPrctTipsMargPost
     let formInput33 = Object.values(postBody)[33] //wlnsPrctMargPost
     let formInput34 = Object.values(postBody)[34] //globalMargPost
-    let formInput35 = Object.values(postBody)[35] //lowerCutRqdRtlPost
-    let formInput36 = Object.values(postBody)[36] //lowerCutoffCharm1Post
-    let formInput37 = Object.values(postBody)[37] //lowerCutoffCharm2Post
-    let formInput38 = Object.values(postBody)[38] //lowerCutoffCharm3Post
-    let formInput39 = Object.values(postBody)[39] //lowerCutoffCharm4Post
-    let formInput40 = Object.values(postBody)[40] //lowerCutoffCharm5Post
-    let formInput41 = Object.values(postBody)[41] //lowerCutoffCharm6Post
-    let formInput42 = Object.values(postBody)[42] //lowerCutoffCharm7Post
 
-    let formInput43 = Object.values(postBody)[43] //upperCharmRqdRtlPost
+    let formInput35 = Object.values(postBody)[35] //lowerCutRqdRtlAndreaPost
+    let formInput36 = Object.values(postBody)[36] //lowerCutRqdRtlBradPost
 
-    let formInput44 = Object.values(postBody)[44] //defaultCharm1Post
-    let formInput45 = Object.values(postBody)[45] //defaultCharm2Post
-    let formInput46 = Object.values(postBody)[46] //defaultCharm3Post
-    let formInput47 = Object.values(postBody)[47] //defaultCharm4Post
+    let formInput37 = Object.values(postBody)[37] //lowerCutoffCharm1AndreaPost
+    let formInput38 = Object.values(postBody)[38] //lowerCutoffCharm1BradPost
 
-    let formInput48 = Object.values(postBody)[48] //prKyPost
+    let formInput39 = Object.values(postBody)[39] //lowerCutoffCharm2AndreaPost
+    let formInput40 = Object.values(postBody)[40] //lowerCutoffCharm2BradPost
 
-    let formInput49 = Object.values(postBody)[49] //upcPost
-    let formInput50 = Object.values(postBody)[50] //skuPost
-    let formInput51 = Object.values(postBody)[51] //descrPost
-    let formInput52 = Object.values(postBody)[52] //updtWSPost
+    let formInput41 = Object.values(postBody)[41] //lowerCutoffCharm3AndreaPost
+    let formInput42 = Object.values(postBody)[42] //lowerCutoffCharm3BradPost
 
-    let formInput53 = Object.values(postBody)[53] //rbMargPost
-    let formInput54 = Object.values(postBody)[54] //rtlReqdPost
+    let formInput43 = Object.values(postBody)[43] //lowerCutoffCharm4AndreaPost
+    let formInput44 = Object.values(postBody)[44] //lowerCutoffCharm4BradPost
 
-    let formInput55 = Object.values(postBody)[55] //msrpPost
+    let formInput45 = Object.values(postBody)[45] //lowerCutoffCharm5AndreaPost
+    let formInput46 = Object.values(postBody)[46] //lowerCutoffCharm5BradPost
+
+    let formInput47 = Object.values(postBody)[47] //lowerCutoffCharm6AndreaPost
+    let formInput48 = Object.values(postBody)[48] //lowerCutoffCharm6BradPost
+
+    let formInput49 = Object.values(postBody)[49] //lowerCutoffCharm7AndreaPost
+    let formInput50 = Object.values(postBody)[50] //lowerCutoffCharm7BradPost
+
+
+    let formInput51 = Object.values(postBody)[51] //upperCharmRqdRtlAndreaPost
+    let formInput52 = Object.values(postBody)[52] //upperCharmRqdRtlBradPost
+
+    let formInput53 = Object.values(postBody)[53] //defaultCharm1AndreaPost
+    let formInput54 = Object.values(postBody)[54] //defaultCharm1BradPost
+
+    let formInput55 = Object.values(postBody)[55] //defaultCharm2AndreaPost
+    let formInput56 = Object.values(postBody)[56] //defaultCharm2BradPost
+
+    let formInput57 = Object.values(postBody)[57] //defaultCharm3AndreaPost
+    let formInput58 = Object.values(postBody)[58] //defaultCharm3BradPost
+
+    let formInput59 = Object.values(postBody)[59] //defaultCharm4AndreaPost
+    let formInput60 = Object.values(postBody)[60] //defaultCharm4BradPost
+
+    let formInput61 = Object.values(postBody)[61] //discountToApplyPost
+
+
+    let formInput62 = Object.values(postBody)[62] //prKyPost
+
+    let formInput63 = Object.values(postBody)[63] //upcPost
+    let formInput64 = Object.values(postBody)[64] //skuPost
+    let formInput65 = Object.values(postBody)[65] //descrPost
+    let formInput66 = Object.values(postBody)[66] //updtWSPost
+
+    let formInput67 = Object.values(postBody)[67] //rbMargPost
+    let formInput68 = Object.values(postBody)[68] //rtlReqdPost
+
+    let formInput69 = Object.values(postBody)[69] //msrpPost
     console.log('formInput0(from retailCalcPassport)==>', formInput0)
     console.log('formInput1(from retailCalcPassport)==>', formInput1)
     console.log('formInput2(from retailCalcPassport)==>', formInput2)
@@ -571,10 +682,17 @@ module.exports = {
     console.log('formInput52(from retailCalcPassport)==>', formInput52)
 
     console.log('formInput55(from retailCalcPassport)==>', formInput55)
+
+    console.log('formInput62(from retailCalcPassport)==>', formInput62)
+    console.log('formInput63(from retailCalcPassport)==>', formInput63)
+    console.log('formInput64(from retailCalcPassport)==>', formInput64)
+    console.log('formInput65(from retailCalcPassport)==>', formInput65)
+
+    console.log('formInput68(from retailCalcPassport)==>', formInput68)
     //^//create variables for form POST data from #retailCalcPassport form ('Search Loaded Table')
 
     //v//retrieve info from database table to display in DOM table/////////////////////////////////////////////////////////
-    if (formInput49 == '' && formInput50 == '' && formInput51 == '' && formInput52 == '' && formInput55 == '') { //return all table entries if search string is empty
+    if (formInput63 == '' && formInput64 == '' && formInput65 == '' && formInput66 == '' && formInput69 == '') { //return all table entries if search string is empty
       connection.query("SELECT * FROM " + formInput0 + " GROUP BY " + "rb_upc" + " HAVING COUNT(*) = 5" + ";", function (err, rows, fields) {
         if (err) throw err
         showSearchResults(rows)
@@ -582,16 +700,17 @@ module.exports = {
         res.render('vw-retailCalcPassport', { //render searchResults to vw-retailCalcPassport page
           title: 'Retail Price Calculator',
           searchResRows: searchResults,
+          loadedSqlTbl: loadedSqlTbl
         })
       })
     } else { // if no records found, render vw-noRecords page
-      if (formInput0 !== undefined && formInput49 !== undefined && formInput50 !== undefined &&
-        formInput51 !== undefined && formInput52 !== undefined && formInput55 !== undefined) {
-        connection.query("SELECT * FROM " + formInput0 + " WHERE " + "'" + srcRsObj['upc'] + "'" + " LIKE " + "'" + formInput49 + "%" + "'" +
-          " AND " + srcRsObj['sku'] + " LIKE " + "'" + formInput50 + "%" + "'" +
-          " AND " + srcRsObj['name'] + " LIKE " + "'" + formInput51 + "%" + "'" +
-          " AND " + srcRsObj['cost'] + " LIKE " + "'" + formInput52 + "%" + "'" +
-          " AND " + srcRsObj['msrp'] + " LIKE " + "'" + formInput55 + "%" + "'",
+      if (formInput0 !== undefined && formInput63 !== undefined && formInput64 !== undefined &&
+        formInput65 !== undefined && formInput66 !== undefined && formInput69 !== undefined) {
+        connection.query("SELECT * FROM " + formInput0 + " WHERE " + "'" + genericHeaderObj.upcHeader + "'" + " LIKE " + "'" + formInput62 + "%" + "'" +
+          " AND " + genericHeaderObj.skuHeader + " LIKE " + "'" + formInput63 + "%" + "'" +
+          " AND " + genericHeaderObj.nameHeader + " LIKE " + "'" + formInput64 + "%" + "'" +
+          " AND " + genericHeaderObj.costHeader + " LIKE " + "'" + formInput65 + "%" + "'" +
+          " AND " + genericHeaderObj.msrpHeader + " LIKE " + "'" + formInput68 + "%" + "'",
           function (err, rows, fields) {
             if (err) throw err
             if (rows.length <= 0) {

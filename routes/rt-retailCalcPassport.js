@@ -47,7 +47,9 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
     username: req.user.name,
     userEmail: req.user.email,
     userEmail_stringified: JSON.stringify(req.user.email),
+    // currentTableName_stringified: JSON.stringify(loadedTable.tableNameToLoad),
   });
+  // console.log('req from /retailCalcPassport==========>', req)
 });
 
 router.post('/createTable', createTable)

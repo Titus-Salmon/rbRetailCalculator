@@ -43,25 +43,62 @@ module.exports = {
         columnHeaderArray.push(response[i]['Field'])
       }
     });
-    // connection.end()
 
-    let stream = fs.createReadStream(process.cwd() + '/public/csv-to-insert/' + fileToUpload.name);
-    let myData = [];
-    let csvStream = csv
-      .parse()
-      .on("data", function (data) {
-        myData.push(data);
-      })
-      .on("end", function () {
-        myData.shift();
+    // let stream = fs.createReadStream(process.cwd() + '/public/csv-to-insert/' + fileToUpload.name);
+    // let myData = [];
+    // let csvStream = csv
+    //   .parse()
+    //   .on("data", function (data) {
+    //     myData.push(data);
+    //   })
+    //   .on("end", function () {
+    //     myData.shift();
 
-        let query2 = 'REPLACE INTO ' + tableToPopulate + ' (' + columnHeaderArray + ') VALUES ?';
-        connection.query(query2, [myData], (error, response) => {
-          console.log(error || response);
-        });
-      });
-    stream.pipe(csvStream);
+    //     let query2 = 'REPLACE INTO ' + tableToPopulate + ' (' + columnHeaderArray + ') VALUES ?';
+    //     connection.query(query2, [myData], (error, response) => {
+    //       console.log(error || response);
+    //     });
+    //   });
+    // stream.pipe(csvStream);
+    //////////////////////////////////////////////////////////////////////////////
+    // let stream = fs.createReadStream(process.cwd() + '/public/csv-to-insert/' + fileToUpload.name);
+    // let myData = [];
+    // let csvStream = csv
+    //   .parse()
+    //   .on("data", function (data) {
+    //     myData.push(data);
+    //   })
+    //   .on("end", function () {
+    //     myData.shift();
 
+    //     let query2 = 'LOAD DATA LOCAL INFILE' + "'" + './public/csv-to-insert/' + fileToUpload.name + "'" + ' INTO TABLE ' +
+    //       tableToPopulate + ' FIELDS TERMINATED BY ' + "','" + ' ENCLOSED BY ' + `'"'` +
+    //       ' LINES TERMINATED BY ' + "'\r\n'" + 'IGNORE 1 LINES;'
+
+    //     connection.query(query2, (error, response) => {
+    //       if (error) {
+    //         console.log('error===>', error)
+    //       } else {
+    //         console.log('response==>', response);
+    //       }
+
+    //     });
+    //   });
+    // stream.pipe(csvStream);
+    ////////////////////////////////////////////////////////////
+
+    //LOAD DATA LOCAL INFILE '/path/to/products.csv' INTO TABLE products;
+    let query2 = 'LOAD DATA LOCAL INFILE' + "'" + './public/csv-to-insert/' + fileToUpload.name + "'" + ' INTO TABLE ' +
+      tableToPopulate + ' FIELDS TERMINATED BY ' + "','" + ' ENCLOSED BY ' + `'"'` +
+      ' LINES TERMINATED BY ' + "'\r\n'" + 'IGNORE 1 LINES;'
+    connection.query(query2, (error, response) => {
+      if (error) {
+        console.log('error===>', error)
+      } else {
+        console.log('response==>', response);
+      }
+
+    });
     res.render('vw-retailCalcPassport', {
       title: 'Retail Price Calculator',
       sqlTablePopulated: {
