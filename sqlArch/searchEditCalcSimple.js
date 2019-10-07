@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
 
 module.exports = {
 
-  searchEditCalc: router.post('/results', (req, res, next) => {
+  searchEditCalcSimple: router.post('/results', (req, res, next) => {
 
     let searchResults = [] //clear searchResults from previous search
     console.log('searchResults from router.post level===>', searchResults)
@@ -149,22 +149,9 @@ module.exports = {
       if (splitFieldResult[i].includes('record_id')) { //primary key - don't think this will be needed for inv mnt wksht
         genericHeaderObj.primarykeyHeader = splitFieldResult[i]
       }
-
-      if (splitFieldResult[i].includes('upc')) {
-        if (splitFieldResult[i] != 'item_upc') {
-          if (splitFieldResult[i].includes('rb_upc')) { //Item ID (1)
-            genericHeaderObj.upcHeader = splitFieldResult[i]
-          } else {
-            if (splitFieldResult[i].includes('upc')) {
-              genericHeaderObj.upcHeader = splitFieldResult[i]
-            }
-          }
-        }
+      if (splitFieldResult[i].includes('rb_upc')) { //Item ID (1)
+        genericHeaderObj.upcHeader = splitFieldResult[i]
       }
-
-      // if (splitFieldResult[i].includes('rb_upc')) { //Item ID (1)
-      //   genericHeaderObj.upcHeader = splitFieldResult[i]
-      // }
       if (splitFieldResult[i].includes('rb_sku')) { //Supplier Unit ID (25)
         genericHeaderObj.skuHeader = splitFieldResult[i]
       }
@@ -756,7 +743,7 @@ module.exports = {
         if (err) throw err
         showSearchResults(rows)
 
-        res.render('vw-retailCalcPassport', { //render searchResults to vw-retailCalcPassport page
+        res.render('vw-retailCalcSimple', { //render searchResults to vw-retailCalcPassport page
           title: 'Retail Price Calculator',
           searchResRows: searchResults,
           loadedSqlTbl: loadedSqlTbl
@@ -780,7 +767,7 @@ module.exports = {
             } else { //if records found for search string entered, add them to searchResults
               showSearchResults(rows)
 
-              res.render('vw-retailCalcPassport', { //render searchResults to vw-retailCalcPassport page
+              res.render('vw-retailCalcSimple', { //render searchResults to vw-retailCalcPassport page
                 title: 'Retail Price Calculator',
                 searchResRows: searchResults,
                 // wsDiff: wholesaleDiffT0d.wsDifferenceArr

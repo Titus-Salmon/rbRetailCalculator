@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
 });
 
 module.exports = {
-  loadTable: router.post('/loadTable', (req, res, next) => {
+  loadTableSimple: router.post('/loadTableSimple', (req, res, next) => {
 
     console.log('req.body', req.body)
     console.log('req.body.length', req.body.length)
@@ -44,7 +44,7 @@ module.exports = {
           FieldArray.push(response[1][i]['Field'])
           console.log('FieldArray from within connection.query===>', FieldArray)
         }
-        res.render('vw-retailCalcPassport', {
+        res.render('vw-retailCalcSimple', {
           title: 'Retail Price Calculator',
           loadedTable: {
             tableNameToLoad: tableNameToLoad,

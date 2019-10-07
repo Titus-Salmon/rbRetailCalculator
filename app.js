@@ -42,9 +42,13 @@ mongoose.connect(db, {
 // var usersRouter = require('./routes/users');
 const indexRouter = require('./routes/rt-index'); //t0d
 const retailCalcPassportRouter = require('./routes/rt-retailCalcPassport'); //t0d
+const retailCalcSimpleRouter = require('./routes/rt-retailCalcSimple'); //t0d
 const usersRouter = require('./routes/rt-users'); //t0d
 
 const editItemPassportRouter = require('./routes/rt-editItemPassport'); //t0d
+
+const wsDiffPassportRouter = require('./routes/rt-wsDiffPassport'); //t0d
+const wsDiffSimpleRouter = require('./routes/rt-wsDiffSimple'); //t0d
 
 var app = express();
 
@@ -102,9 +106,13 @@ app.use(function (req, res, next) {
 // app.use('/users', usersRouter);
 app.use('/', indexRouter); //t0d
 app.use('/retailCalcPassport', retailCalcPassportRouter); //t0d
+app.use('/retailCalcSimple', retailCalcSimpleRouter); //t0d
 app.use('/users', usersRouter); //t0d
 
 app.use('/editItemPassport', editItemPassportRouter); //t0d
+
+app.use('/wsDiffPassport', wsDiffPassportRouter) //t0d
+app.use('/wsDiffSimple', wsDiffSimpleRouter) //t0d
 //^//==>NOTE: THESE ROUTES MUST COME AFTER THE GLOBAL VARIABLES, OR THE GLOBAL VARIABLES WON'T WORK FOR THOSE PAGES
 
 // catch 404 and forward to error handler

@@ -33,7 +33,10 @@ module.exports = {
     ];
     const opts = {
       fields,
+      // excelStrings: true,
       // header: false
+      quote: '', //whatever is inside the '' will be use as your quote character, so this removes all quotes from CSV
+      // quote: '"'
     };
 
     try {

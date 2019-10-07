@@ -23,6 +23,11 @@ label {
   margin-left: 3rem;
 }
 
+.input-field-noFloat {
+  /* float: left; */
+  margin-left: 3rem;
+}
+
 .input-unit-1 {
   margin-bottom: 0.5rem;
 }

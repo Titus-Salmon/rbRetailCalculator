@@ -5,7 +5,7 @@ html
 
 	body
 		script.
-			console.log('locstor from retailCalcPassport==>', localStorage)
+			console.log('locstor from retailCalcSimple==>', localStorage)
 		include vw-dashboard.pug
 		//- div(style='display:block; margin:0 0 2.5rem 2.5rem')
 		//- 	a(href="/users/logout") Logout
@@ -17,7 +17,7 @@ html
 			- console.log('wsDiff from wholesaleDiff.js==>', wsDiff)
 
 		div(style="display:block")
-			form#loadTable(action='/retailCalcPassport/loadTable' method='POST' accept-charset="UTF-8")
+			form#loadTable(action='/retailCalcSimple/loadTableSimple' method='POST' accept-charset="UTF-8")
 				label.input-label-1(for='ldTblName') Table Name to Load
 				input#ldTblName.input-unit-1(type='text', placeholder='enter data1', name='ldTblNamePost', value='')
 
@@ -43,7 +43,7 @@ html
 					- console.log('thing==>', thing)
 					p= thing
 			
-		form#createTable(action='/retailCalcPassport/createTable' method='POST' accept-charset="UTF-8" style="display:block")
+		form#createTable(action='/retailCalcSimple/createTable' method='POST' accept-charset="UTF-8" style="display:block")
 			div(style="display:block")
 				label.input-label-1(for='crtTblName') Enter Table Name
 				input#crtTblName.input-unit-1(type='text', placeholder='enter data', name='tblNamePost', value='')
@@ -59,7 +59,7 @@ html
 			each elmnt in sqlTableCreated.basicColumnNames
 				p= elmnt
 		br
-		form#populateTable(ref="populateTable" action='/retailCalcPassport/populateTable' method='POST' encType="multipart/form-data" accept-charset="UTF-8")
+		form#populateTable(ref="populateTable" action='/retailCalcSimple/populateTable' method='POST' encType="multipart/form-data" accept-charset="UTF-8")
 			div(style="display:block")
 				label.input-label-1(for='popTbl') Populate Table
 				input#popTbl.input-unit-1(type='file', name='popTblPost')
@@ -72,7 +72,7 @@ html
 			p= 'Table Populated: ' + sqlTablePopulated.tablePopulated
 
 		
-		form#retailCalcPassport(action='/retailCalcPassport/results' method='POST' accept-charset="UTF-8")
+		form#retailCalcSimple(action='/retailCalcSimple/results' method='POST' accept-charset="UTF-8")
 			
 			if sqlTableCreated !== undefined
 			
@@ -291,18 +291,18 @@ html
 				label.input-label-1(for='wsDiffResults') WS Diff Results
 				input#wsDiffResults.input-unit-1(type='text', name='wsDiffResultsPost' value=wsDiff)
 
-		button#searchDB(type='submit', form='retailCalcPassport', style="display: block; float: left") Search Loaded Table
+		button#searchDB(type='submit', form='retailCalcSimple', style="display: block; float: left") Search Loaded Table
 		br
 		br
 		button.adminButton#saveCSV(type="submit" form="saveCSVPost") Save Results as CSV - Inv Mnt Wksht (for Retail Update)
-		form#saveCSVPost(action='/retailCalcPassport/saveCSV' method='POST' accept-charset='UTF-8')
+		form#saveCSVPost(action='/retailCalcSimple/saveCSV' method='POST' accept-charset='UTF-8')
 			label.input-label-1(for='csv') filename:
 				input#csv.input-unit-1(type='text', placeholder='enter filename here', name='csvPost', value='')
 			if loadedTable !== undefined
 				label.input-label-1(for='csvHeaders') CSV headers:
 					input#csvHeaders.input-unit-1(type='text', placeholder='enter data', name='csvHeadersPost', readonly, style="background-color:#c2d6d6", value=loadedTable.tableFields)
 		button.adminButton#saveCSVreview(type="submit" form="saveCSVreviewPost") Save Results as CSV - Retail Price Review
-		form#saveCSVreviewPost(action='/retailCalcPassport/saveCSVreview' method='POST' accept-charset='UTF-8')
+		form#saveCSVreviewPost(action='/retailCalcSimple/saveCSVreview' method='POST' accept-charset='UTF-8')
 			label.input-label-1(for='csv') filename:
 				input#csvReview.input-unit-1(type='text', placeholder='enter filename here', name='csvPost', value='')
 			if loadedTable !== undefined

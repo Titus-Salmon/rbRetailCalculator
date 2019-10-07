@@ -9,22 +9,31 @@ html
 		script.
 			console.log('locstor--------', localStorage)
 		include partials/header.pug
-		div(style='display:block; margin:0 0 2.5rem 2.5rem')
-			a(href='/retailCalcPassport', style="margin-bottom: 5rem") Retail Calculator
+		div(style='display:block; margin:0 0 2.5rem 0')
+			a(href='/retailCalcPassport', style="margin-bottom: 5rem") Retail Calculator (complex)
+			|
+			|
+			a(href='/retailCalcSimple', style="margin-bottom: 5rem") Retail Calculator (simple)
+			|
+			|
+			a(href='/wsDiffPassport', style="margin-bottom: 5rem") WS Diff Checker (complex)
+			|
+			|
+			a(href='/wsDiffSimple', style="margin-bottom: 5rem") WS Diff Checker (simple)
 			|
 			|
 			a(href="/users/logout") Logout
-		div.input-field-1
-			h3(style="margin-top: 0")= title
+		//- div.input-field-noFloat
+		h3(style="margin-top: 0")= title
 
-			p Username: #{username}
-			p Email: #{userEmail}
+		p Username: #{username}
+		p Email: #{userEmail}
 
-			if userEmail_stringified
-				script.
-					localStorage.clear()
-					localStorage.setItem('userEmail_localStorage', !{userEmail_stringified})
-					console.log('localStorage from pug==>', localStorage)
+		if userEmail_stringified
+			script.
+				localStorage.clear()
+				localStorage.setItem('userEmail_localStorage', !{userEmail_stringified})
+				console.log('localStorage from pug==>', localStorage)
 
 			script(src='/javascripts/modules/adminM0d.js')
 
