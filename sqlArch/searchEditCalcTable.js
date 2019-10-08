@@ -752,8 +752,7 @@ module.exports = {
 
     //v//retrieve info from database table to display in DOM table/////////////////////////////////////////////////////////
     if (formInput63 == '' && formInput64 == '' && formInput65 == '' && formInput66 == '' && formInput69 == '') { //return all table entries if search string is empty
-      console.log('genericHeaderObj.upcHeader>>>>>', genericHeaderObj.upcHeader)
-      connection.query("SELECT * FROM " + formInput0 + " GROUP BY " +  genericHeaderObj.upcHeader +  " HAVING COUNT(*) = 5" + ";", function (err, rows, fields) {
+      connection.query("SELECT * FROM " + formInput0 + " GROUP BY " + "rb_upc" + " HAVING COUNT(*) = 5" + ";", function (err, rows, fields) {
         if (err) throw err
         showSearchResults(rows)
 
