@@ -19,6 +19,8 @@ module.exports = {
     let genericColNamesObj1 = {}
     let genericColNamesObj2 = {}
 
+    // let scanResultsObj = {}
+
 
     const postBody = req.body
     // console.log('postBody==>', postBody)
@@ -39,6 +41,8 @@ module.exports = {
 
       var longerTable
       var shorterTable
+
+      // let scanResultsObj = {}
 
       // let genericColNamesObj = {}
       let sanColNmsRegex = /(\[)|(\])|(')/g
@@ -146,10 +150,10 @@ module.exports = {
       }
       // console.log('rows*****>', rows)
       console.log('rows[0].length=-=-=->', rows[0].length)
-      console.log('rows[0]=-=-=->', rows[0])
-      console.log('rows[1].length=-=-=->', rows[1].length)
-      console.log('rows[2].length=-=-=->', rows[2].length)
-      console.log('rows[3].length=-=-=->', rows[3].length)
+      // console.log('rows[0]=-=-=->', rows[0])
+      // console.log('rows[1].length=-=-=->', rows[1].length)
+      // console.log('rows[2].length=-=-=->', rows[2].length)
+      // console.log('rows[3].length=-=-=->', rows[3].length)
 
       if (rows[0].length > rows[1].length) {
         longerTable = rows[0]
@@ -162,81 +166,53 @@ module.exports = {
       console.log('longerTable==>', longerTable)
       console.log('shorterTable==>', shorterTable)
 
-      // for (let lt = 0; lt < longerTable.length; lt++) {
-      //   for (let st = 0; st < shorterTable.length; st++) {
-      //     if (longerTable[lt][genericColNamesObj1.upcColumn] == shorterTable[st][genericColNamesObj2.upcColumn]) {
-      //       console.log('longerTable[lt][genericColNamesObj1.upcColumn]===>', longerTable[lt][genericColNamesObj1.upcColumn])
-      //       if (shorterTable[st]) {
-      //         if (shorterTable[st][genericColNamesObj2.costColumn] > longerTable[lt][genericColNamesObj1.costColumn] + (longerTable[lt][genericColNamesObj1.costColumn] * .05) ||
-      //           shorterTable[st][genericColNamesObj2.costColumn] < longerTable[lt][genericColNamesObj1.costColumn] - (longerTable[lt][genericColNamesObj1.costColumn] * .05)
-      //         ) {
-      //           wsDifferenceArr.push(scanResultsObj)
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
+      // let scanResultsObj = {}
 
       for (let j = 0; j < longerTable.length; j++) {
+        console.log('longerTable[' + j + ']>>>>>>', longerTable[j])
 
         let scanResultsObj = {}
 
 
-        // if (rows[0][j]) {
-        //   scanResultsObj['wsDiffTable1_P_K'] = rows[0][j]['record_id']
-        //   scanResultsObj['wsDiffTable1_upc'] = rows[0][j][genericColNamesObj1.upcColumn]
-        //   scanResultsObj['wsDiffTable1_cost'] = rows[0][j][genericColNamesObj1.costColumn]
-        //   scanResultsObj['wsDiffTable1_name'] = rows[0][j][genericColNamesObj1.nameColumn]
-        // }
-
-        // if (rows[1][j]) {
-        //   scanResultsObj['wsDiffTable2_P_K'] = rows[1][j]['record_id']
-        //   scanResultsObj['wsDiffTable2_upc'] = rows[1][j][genericColNamesObj2.upcColumn]
-        //   scanResultsObj['wsDiffTable2_cost'] = rows[1][j][genericColNamesObj2.costColumn]
-        //   scanResultsObj['wsDiffTable2_name'] = rows[1][j][genericColNamesObj2.nameColumn]
-        // }
-
         for (let st = 0; st < shorterTable.length; st++) {
+          // let scanResultsObj = {}
           if (longerTable[j][genericColNamesObj1.upcColumn] == shorterTable[st][genericColNamesObj2.upcColumn]) {
-            console.log('longerTable[j][genericColNamesObj1.upcColumn]===>', longerTable[j][genericColNamesObj1.upcColumn])
-            console.log('shorterTable[st][genericColNamesObj2.upcColumn]===>', shorterTable[st][genericColNamesObj2.upcColumn])
+            // let scanResultsObj = {}
+            console.log('longerTable[' + j + '][genericColNamesObj1.upcColumn]===>', longerTable[j][genericColNamesObj1.upcColumn])
+            console.log('shorterTable[' + st + '][genericColNamesObj2.upcColumn]===>', shorterTable[st][genericColNamesObj2.upcColumn])
             //if (shorterTable[st]) {
-            if (shorterTable[st][genericColNamesObj2.costColumn] > longerTable[j][genericColNamesObj1.costColumn] + (longerTable[j][genericColNamesObj1.costColumn] * .05) ||
-              shorterTable[st][genericColNamesObj2.costColumn] < longerTable[j][genericColNamesObj1.costColumn] - (longerTable[j][genericColNamesObj1.costColumn] * .05)
+            console.log('shorterTable[' + st + '][genericColNamesObj2.costColumn]==>', shorterTable[st][genericColNamesObj2.costColumn])
+            if ((shorterTable[st][genericColNamesObj2.costColumn] > longerTable[j][genericColNamesObj1.costColumn] + (longerTable[j][genericColNamesObj1.costColumn] * .05)) ||
+              (shorterTable[st][genericColNamesObj2.costColumn] < longerTable[j][genericColNamesObj1.costColumn] - (longerTable[j][genericColNamesObj1.costColumn] * .05)) ||
+              (longerTable[j][genericColNamesObj1.costColumn] > shorterTable[st][genericColNamesObj2.costColumn] + (shorterTable[st][genericColNamesObj2.costColumn] * .05)) ||
+              (longerTable[j][genericColNamesObj1.costColumn] < shorterTable[st][genericColNamesObj2.costColumn] - (shorterTable[st][genericColNamesObj2.costColumn] * .05))
             ) {
               scanResultsObj['wsDiffTable1_P_K'] = longerTable[j]['record_id']
+              // wsDifferenceArr.push(scanResultsObj['wsDiffTable1_P_K'])
               scanResultsObj['wsDiffTable1_upc'] = longerTable[j][genericColNamesObj1.upcColumn]
+              // wsDifferenceArr.push(scanResultsObj['wsDiffTable1_upc'])
               scanResultsObj['wsDiffTable1_cost'] = longerTable[j][genericColNamesObj1.costColumn]
+              // wsDifferenceArr.push(scanResultsObj['wsDiffTable1_cost'])
               scanResultsObj['wsDiffTable1_name'] = longerTable[j][genericColNamesObj1.nameColumn]
+              // wsDifferenceArr.push(scanResultsObj['wsDiffTable1_name'])
 
               scanResultsObj['wsDiffTable2_P_K'] = shorterTable[st]['record_id']
+              // wsDifferenceArr.push(scanResultsObj['wsDiffTable2_P_K'])
               scanResultsObj['wsDiffTable2_upc'] = shorterTable[st][genericColNamesObj2.upcColumn]
+              // wsDifferenceArr.push(scanResultsObj['wsDiffTable2_upc'])
               scanResultsObj['wsDiffTable2_cost'] = shorterTable[st][genericColNamesObj2.costColumn]
+              // wsDifferenceArr.push(scanResultsObj['wsDiffTable2_cost'])
               scanResultsObj['wsDiffTable2_name'] = shorterTable[st][genericColNamesObj2.nameColumn]
+              // wsDifferenceArr.push(scanResultsObj['wsDiffTable2_name'])
 
-              wsDifferenceArr.push(scanResultsObj)
+              // wsDifferenceArr.push(scanResultsObj)
             }
             //}
           }
         }
-
-
-        // for (let lt = 0; lt < longerTable.length; lt++) {
-        //   for (let st = 0; st < shorterTable.length; st++) {
-        //     if (longerTable[lt][genericColNamesObj1.upcColumn] == shorterTable[st][genericColNamesObj2.upcColumn]) {
-        //       console.log('longerTable[lt][genericColNamesObj1.upcColumn]===>', longerTable[lt][genericColNamesObj1.upcColumn])
-        //       if (shorterTable[st]) {
-        //         if (shorterTable[st][genericColNamesObj2.costColumn] > longerTable[lt][genericColNamesObj1.costColumn] + (longerTable[lt][genericColNamesObj1.costColumn] * .05) ||
-        //           shorterTable[st][genericColNamesObj2.costColumn] < longerTable[lt][genericColNamesObj1.costColumn] - (longerTable[lt][genericColNamesObj1.costColumn] * .05)
-        //         ) {
-        //           wsDifferenceArr.push(scanResultsObj)
-        //         }
-        //       }
-        //     }
-        //   }
-        // }
-        // console.log('scanResultsObj==>', scanResultsObj)
+        wsDifferenceArr.push(scanResultsObj)
       }
+      // wsDifferenceArr.push(scanResultsObj)
 
       //  
 
