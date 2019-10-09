@@ -50,6 +50,8 @@ const editItemPassportRouter = require('./routes/rt-editItemPassport'); //t0d
 const wsDiffPassportRouter = require('./routes/rt-wsDiffPassport'); //t0d
 const wsDiffSimpleRouter = require('./routes/rt-wsDiffSimple'); //t0d
 
+const wsDiffTableJoinRouter = require('./routes/rt-wsDiffTableJoin') //t0d
+
 var app = express();
 
 // // default options for express-fileuploader
@@ -113,6 +115,8 @@ app.use('/editItemPassport', editItemPassportRouter); //t0d
 
 app.use('/wsDiffPassport', wsDiffPassportRouter) //t0d
 app.use('/wsDiffSimple', wsDiffSimpleRouter) //t0d
+
+app.use('/wsDiffTableJoin', wsDiffTableJoinRouter) //t0d
 //^//==>NOTE: THESE ROUTES MUST COME AFTER THE GLOBAL VARIABLES, OR THE GLOBAL VARIABLES WON'T WORK FOR THOSE PAGES
 
 // catch 404 and forward to error handler

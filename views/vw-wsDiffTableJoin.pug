@@ -1,0 +1,33 @@
+doctype html
+html
+	head
+		link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+
+	body
+		script.
+			console.log('locstor from retailCalcSimple==>', localStorage)
+		include vw-dashboard.pug
+		//- div(style='display:block; margin:0 0 2.5rem 2.5rem')
+		//- 	a(href="/users/logout") Logout
+		hr
+
+		div(style="display:block")
+			form#compareTables(action='/wsDiffTableJoin/calc_WS_Diff_TableJoin' method='POST' accept-charset="UTF-8")
+				label.input-label-1(for='compareTables') Tables to Compare - TABLE 1 (old)
+				input#wsDiffTableOld.input-unit-1(type='text', placeholder='enter TABLE 1 name', name='wsDiffTableOldPost', value='')
+				label.input-label-1(for='compareTables') Tables to Compare - TABLE 2 (new)
+				input#wsDiffTableNew.input-unit-1(type='text', placeholder='enter TABLE 2 name', name='wsDiffTableNewPost', value='')
+				button#compareTablesBtn(type='submit', form='compareTables') Compare Tables
+
+		
+
+
+		//- script(src='/javascripts/dbEditPassport.js')
+		script(src='/javascripts/modules/sortTableM0d.js')
+		script(src='/javascripts/modules/tblHiliteM0d.js')
+		script(src='/javascripts/modules/dateCalcM0d.js')
+		script(src='/javascripts/modules/editDBM0d.js')
+		//- script(src='/javascripts/modules/saveCSVM0d.js')
+		//- script(src='/javascripts/modules/deleteSelectionM0d.js')
+		script(src='/javascripts/modules/adminM0d.js')
+		//- script(src='/javascripts/modules/loadTableM0d.js')
