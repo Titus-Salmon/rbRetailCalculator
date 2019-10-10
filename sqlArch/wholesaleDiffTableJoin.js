@@ -35,11 +35,6 @@ module.exports = {
 
 
     connection.query(
-      //SELECT rb_upc, rb_cost, rb_name FROM wsDiffTableNew WHERE wsDiffTableNew.rb_cost > wsDiffTableOld.rb_cost;
-
-      //HERE IS WHERE IT'S STARTING TO WORK......
-      //SELECT DISTINCT N.rb_upc, N.rb_cost, N.rb_name FROM wsdifftest_2_hempfusion N JOIN wsdifftest_1_hempfusion O ON N.rb_upc WHERE N.rb_upc = O.rb_upc AND N.rb_cost > O.rb_cost;
-
       //Here is what you want to use; this will grab any upc & cost from the NEW table that has increased or decreased by 5% or more:
       //SELECT DISTINCT N.rb_upc, N.rb_cost, N.rb_name FROM wsdifftest_2_hempfusion N JOIN wsdifftest_1_hempfusion O ON N.rb_upc WHERE N.rb_upc = O.rb_upc AND (N.rb_cost > O.rb_cost + .05 * O.rb_cost OR N.rb_cost < O.rb_cost - .05 * O.rb_cost);
       "SELECT DISTINCT new.rb_upc, new.rb_cost, new.rb_name FROM " +
@@ -47,6 +42,7 @@ module.exports = {
       wsDiffTableOld +
       " old ON new.rb_upc WHERE new.rb_upc = old.rb_upc" +
       " AND (new.rb_cost > old.rb_cost + .05 * old.rb_cost OR new.rb_cost < old.rb_cost - .05 * old.rb_cost);",
+      //^//==>need to convert this to a more generalized statement that will accept column names containing 'cost' & 'upc' & 'name'
 
       /**
     record_id: 1,
