@@ -18,6 +18,8 @@ module.exports = {
     let genericColNamesObj1 = {}
     let genericColNamesObj2 = {}
 
+    // let queryResObj = {}
+
 
     const postBody = req.body
     console.log('postBody==>', postBody)
@@ -31,6 +33,16 @@ module.exports = {
 
     function wsDiffTableJoin(rows) {
       console.log('rows from wsDiffTableJoin(rows)==>', rows)
+      console.log('rows.length==>', rows.length)
+
+      for (let i = 0; i < rows.length; i++) { //for every row in query result,
+        let queryResObj = {} //create blank queryResObj, and populate it with upc, cost, & name data for that row
+        queryResObj['wsDiffFromNewTable_upc'] = rows[i]['rb_upc']
+        queryResObj['wsDiffFromNewTable_cost'] = rows[i]['rb_cost']
+        queryResObj['wsDiffFromNewTable_name'] = rows[i]['rb_name']
+        console.log('queryResObj==>', queryResObj)
+        wsDiffTableJoinArr.push(queryResObj) //push that single row object to wsDiffTableJoinArr
+      }
     }
 
 
@@ -43,6 +55,15 @@ module.exports = {
       " old ON new.rb_upc WHERE new.rb_upc = old.rb_upc" +
       " AND (new.rb_cost > old.rb_cost + .05 * old.rb_cost OR new.rb_cost < old.rb_cost - .05 * old.rb_cost);",
       //^//==>need to convert this to a more generalized statement that will accept column names containing 'cost' & 'upc' & 'name'
+
+      // //Here is what you want to use; this will grab any upc & cost from the NEW table that has increased or decreased by 5% or more:
+      // //SELECT DISTINCT N.rb_upc, N.rb_cost, N.rb_name FROM wsdifftest_2_hempfusion N JOIN wsdifftest_1_hempfusion O ON N.rb_upc WHERE N.rb_upc = O.rb_upc AND (N.rb_cost > O.rb_cost + .05 * O.rb_cost OR N.rb_cost < O.rb_cost - .05 * O.rb_cost);
+      // "SELECT DISTINCT new.rb_upc, new.rb_cost, new.rb_name FROM " +
+      // wsDiffTableNew + " new JOIN " +
+      // wsDiffTableOld +
+      // " old ON new.rb_upc WHERE new.rb_upc = old.rb_upc" +
+      // " AND (CAST(new.rb_cost AS FLOAT) > CAST(old.rb_cost AS FLOAT) + .05 * CAST(old.rb_cost AS FLOAT) OR CAST(new.rb_cost AS FLOAT) < CAST(old.rb_cost AS FLOAT) - .05 * CAST(old.rb_cost AS FLOAT));",
+      // //^//==>need to convert this to a more generalized statement that will accept column names containing 'cost' & 'upc' & 'name'
 
       /**
     record_id: 1,
@@ -90,7 +111,7 @@ module.exports = {
 
         wsDiffTableJoin(rows)
 
-        res.render('vw-retailCalcSimple', { //render searchResults to vw-retailCalcPassport page
+        res.render('vw-retailCalcTableJoin', { //render searchResults to vw-retailCalcPassport page
           title: 'Retail Price Calculator w/ WS Comparison (TableJoin method)',
           // searchResRows: searchResults,
           // loadedSqlTbl: loadedSqlTbl,
