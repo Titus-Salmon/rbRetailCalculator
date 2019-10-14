@@ -389,10 +389,10 @@ module.exports = {
           //input, otherwise wsDiffResults will be undefined
           let wsDiffResults = JSON.parse(postBody['wsDiffResultsPost'])
           for (let j = 0; j < wsDiffResults.length; j++) {
-            if (srcRsObj['upc'] == wsDiffResults[j]['wsDiffTable1_upc']) {
-              srcRsObj['wsDiff_t0d'] = wsDiffResults[j]['wsDiffTable1_upc'] //INCLUDE in save2CSVreview export data
-              reviewObj['wsDiff_t0d'] = wsDiffResults[j]['wsDiffTable1_upc'] //INCLUDE in save2CSVreview export data
-              console.log('wsDiffResults[j][\'wsDiffTable1_upc\']##>>', wsDiffResults[j]['wsDiffTable1_upc'])
+            if (srcRsObj['upc'] == wsDiffResults[j]['wsDiffNewTable_upc']) {
+              srcRsObj['wsDiff_t0d'] = wsDiffResults[j]['wsDiffNewTable_upc'] //INCLUDE in save2CSVreview export data
+              reviewObj['wsDiff_t0d'] = wsDiffResults[j]['wsDiffNewTable_upc'] //INCLUDE in save2CSVreview export data
+              console.log('wsDiffResults[j][\'wsDiffNewTable_upc\']##>>', wsDiffResults[j]['wsDiffNewTable_upc'])
             }
           }
         }
