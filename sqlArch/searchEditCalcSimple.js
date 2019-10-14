@@ -201,10 +201,10 @@ module.exports = {
           if (srcRsObj['cost'] > 0) {
             srcRsObj['reqdRetail'] = reviewObj['reqdRetail'] = (-(srcRsObj['cost'] - srcRsObj['cost'] * discountToApply) / (departmentMargin - 1)) //applies margin to WS
             //AND also applies any % discount; discountToApply is set at default 0
-            if (srcRsObj['reqdRetail'] % 1 == 0 && srcRsObj['reqdRetail'] > 0) {
-              dbl0CharmResult = srcRsObj['reqdRetail'] - .01
-              // reviewObj['charm'] = srcRsObj['charm'] = '"' + dbl0CharmResult + '"'
-              reviewObj['charm'] = srcRsObj['charm'] = dbl0CharmResult
+            if (srcRsObj['reqdRetail'] % 1 < .10 && srcRsObj['reqdRetail'] > 0) {//TODO: NEED TO MODIFY FOR BRAD
+              dbl0Or10CharmResult = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 - .01
+              // reviewObj['charm'] = srcRsObj['charm'] = '"' + dbl0Or10CharmResult + '"'
+              reviewObj['charm'] = srcRsObj['charm'] = dbl0Or10CharmResult
               return reviewObj['charm'] = srcRsObj['charm']
             } else {
               if (srcRsObj['reqdRetail'] > 0) {
