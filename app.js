@@ -41,17 +41,17 @@ mongoose.connect(db, {
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 const indexRouter = require('./routes/rt-index'); //t0d
-const retailCalcPassportRouter = require('./routes/rt-retailCalcPassport'); //t0d
+// const retailCalcPassportRouter = require('./routes/rt-retailCalcPassport'); //t0d
 const retailCalcSimpleRouter = require('./routes/rt-retailCalcSimple'); //t0d
 const usersRouter = require('./routes/rt-users'); //t0d
 
 const editItemPassportRouter = require('./routes/rt-editItemPassport'); //t0d
 
-const wsDiffPassportRouter = require('./routes/rt-wsDiffPassport'); //t0d
+// const wsDiffPassportRouter = require('./routes/rt-wsDiffPassport'); //t0d
 const wsDiffSimpleRouter = require('./routes/rt-wsDiffSimple'); //t0d
 
-const wsDiffTableJoinRouter = require('./routes/rt-wsDiffTableJoin') //t0d
-const retailCalcTableJoinRouter = require('./routes/rt-retailCalcTableJoin') //t0d
+// const wsDiffTableJoinRouter = require('./routes/rt-wsDiffTableJoin') //t0d
+// const retailCalcTableJoinRouter = require('./routes/rt-retailCalcTableJoin') //t0d
 
 var app = express();
 
@@ -115,18 +115,18 @@ app.use(function (req, res, next) {
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/', indexRouter); //t0d
-app.use('/retailCalcPassport', retailCalcPassportRouter); //t0d
+// app.use('/retailCalcPassport', retailCalcPassportRouter); //t0d
 app.use('/retailCalcSimple', retailCalcSimpleRouter); //t0d
 app.use('/users', usersRouter); //t0d
 
 app.use('/editItemPassport', editItemPassportRouter); //t0d
 
-app.use('/wsDiffPassport', wsDiffPassportRouter) //t0d
+// app.use('/wsDiffPassport', wsDiffPassportRouter) //t0d
 app.use('/wsDiffSimple', wsDiffSimpleRouter) //t0d
 
-app.use('/wsDiffTableJoin', wsDiffTableJoinRouter) //t0d
+// app.use('/wsDiffTableJoin', wsDiffTableJoinRouter) //t0d
 
-app.use('/retailCalcTableJoin', retailCalcTableJoinRouter) //t0d
+// app.use('/retailCalcTableJoin', retailCalcTableJoinRouter) //t0d
 
 //^//==>NOTE: THESE ROUTES MUST COME AFTER THE GLOBAL VARIABLES, OR THE GLOBAL VARIABLES WON'T WORK FOR THOSE PAGES
 
