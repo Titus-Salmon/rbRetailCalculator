@@ -43,7 +43,7 @@ html
 					- console.log('thing==>', thing)
 					p= thing
 			
-		form#createTable(action='/retailCalcSimple/createTable' method='POST' accept-charset="UTF-8" style="display:block")
+		form#createTable(action='/retailCalcSimple/createTableSimple' method='POST' accept-charset="UTF-8" style="display:block")
 			div(style="display:block")
 				label.input-label-1(for='crtTblName') Enter Table Name
 				input#crtTblName.input-unit-1(type='text', placeholder='enter data', name='tblNamePost', value='')
@@ -59,7 +59,7 @@ html
 			each elmnt in sqlTableCreated.basicColumnNames
 				p= elmnt
 		br
-		form#populateTable(ref="populateTable" action='/retailCalcSimple/populateTable' method='POST' encType="multipart/form-data" accept-charset="UTF-8")
+		form#populateTable(ref="populateTable" action='/retailCalcSimple/populateTableSimple' method='POST' encType="multipart/form-data" accept-charset="UTF-8")
 			div(style="display:block")
 				label.input-label-1(for='popTbl') Populate Table
 				input#popTbl.input-unit-1(type='file', name='popTblPost')

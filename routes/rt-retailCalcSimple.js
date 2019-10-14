@@ -6,12 +6,12 @@ const {
 } = require('../config/auth-t0dt1tz1')
 
 const {
-  createTable
-} = require('../sqlArch/createTable')
+  createTableSimple
+} = require('../sqlArch/createTableSimple')
 
 const {
-  populateTable
-} = require('../sqlArch/populateTable')
+  populateTableSimple
+} = require('../sqlArch/populateTableSimple')
 
 const {
   searchEditCalcSimple
@@ -52,8 +52,8 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
   // console.log('req from /retailCalcSimple==========>', req)
 });
 
-router.post('/createTable', createTable)
-router.post('/populateTable', populateTable)
+router.post('/createTableSimple', createTableSimple)
+router.post('/populateTableSimple', populateTableSimple)
 router.post('/results', searchEditCalcSimple)
 router.post('/loadTableSimple', loadTableSimple)
 router.post('/saveCSV', saveResultsToCSV)
