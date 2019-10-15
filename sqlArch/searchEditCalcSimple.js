@@ -312,6 +312,10 @@ module.exports = {
         srcRsObj['itemName'] = "" //Item Name
         srcRsObj['size'] = "" //Size
         srcRsObj['sugstdRtl'] = rows[i][genericHeaderObj.msrpHeader] //Suggested Retail
+        //TODO: May need to change this to srcRsObj['sugstRtl'] = srcRsObj['charm'] (probably will have to declare it down below,
+        //where you are actually calculating srcRsObj['charm']. I don't think this is a good idea AT ALL, especially given the fact
+        //that Catapult specifically defines suggested retail as MSRP, so the way you're currently doing it is the correct way.
+        //For now, if it is an issue with Tom, just manually change sugstdRtl column to be same as charm column) 
         srcRsObj['lastCost'] = "" //Last Cost
         // srcRsObj['charm'] = "" //Base Price ==>INCLUDE in save2CSVreview export data
         srcRsObj['autoDiscount'] = "" //Auto Discount
