@@ -49,6 +49,7 @@ const editItemPassportRouter = require('./routes/rt-editItemPassport'); //t0d
 
 // const wsDiffPassportRouter = require('./routes/rt-wsDiffPassport'); //t0d
 const wsDiffSimpleRouter = require('./routes/rt-wsDiffSimple'); //t0d
+const compareUnequalListsRouter = require('./routes/rt-compareUnequalLists') //t0d
 
 // const wsDiffTableJoinRouter = require('./routes/rt-wsDiffTableJoin') //t0d
 // const retailCalcTableJoinRouter = require('./routes/rt-retailCalcTableJoin') //t0d
@@ -123,6 +124,7 @@ app.use('/editItemPassport', editItemPassportRouter); //t0d
 
 // app.use('/wsDiffPassport', wsDiffPassportRouter) //t0d
 app.use('/wsDiffSimple', wsDiffSimpleRouter) //t0d
+app.use('/compareUnequalLists', compareUnequalListsRouter) //t0d
 
 // app.use('/wsDiffTableJoin', wsDiffTableJoinRouter) //t0d
 

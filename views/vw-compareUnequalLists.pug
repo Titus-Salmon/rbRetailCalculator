@@ -1,0 +1,37 @@
+doctype html
+html
+	head
+		link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+
+	body
+		script.
+			console.log('locstor from retailCalcSimple==>', localStorage)
+		include vw-dashboard.pug
+		//- div(style='display:block; margin:0 0 2.5rem 2.5rem')
+		//- 	a(href="/users/logout") Logout
+		hr
+
+		div(style="display:block")
+			form#compareTables(action='/compareUnequalLists/compareLists' method='POST' accept-charset="UTF-8")
+				label.input-label-1(for='compareTables') Tables to Compare - TABLE 1
+				input#wsDiffTable1.input-unit-1(type='text', placeholder='enter TABLE 1 name', name='Table1Post', value='')
+				label.input-label-1(for='compareTables') Tables to Compare - TABLE 2
+				input#wsDiffTable2.input-unit-1(type='text', placeholder='enter TABLE 2 name', name='Table2Post', value='')
+				button#compareTablesBtn(type='submit', form='compareTables') Compare Tables
+
+		div.rslt-tbl-1
+			table#resTbl
+				thead
+					tr
+						th Line #
+						th Match
+						th NO MATCH
+
+
+				tbody#resTblBdy
+					if comparedLists !== undefined
+						each elmnt in comparedLists
+							tr
+								td= elmnt.recordID
+								td= elmnt.match
+								td= elmnt.noMatch
