@@ -14,7 +14,9 @@ module.exports = {
 
   compareUnequalLists: router.post('/compareLists', (req, res, next) => {
 
-    let compareUnequalListsArr = []
+    // let compareUnequalListsArr = []
+    let sameArr = []
+    let diffArr = []
 
 
     const postBody = req.body
@@ -57,39 +59,30 @@ module.exports = {
         var shorterTableColName = Table1Cols[1]['COLUMN_NAME']
       }
 
-      for (let i = 0; i < shorterTable.length; i++) {
-        let compareQueryResObj = {} //generate single-key obj for EACH Table1 row
-
-        for (let j = 0; j < longerTable.length; j++) {
-          if (longerTable[j][longerTableColName] == shorterTable[i][shorterTableColName]) {
-            compareQueryResObj['recordID'] = longerTable[j]['record_id']
-            compareQueryResObj['match'] = longerTable[j][longerTableColName]
-          } else {
-            compareQueryResObj['noMatch'] = shorterTable[i][shorterTableColName]
+      for (let i = 0; i < longerTable.length; i++) {
+        match = false
+        for (let j = 0; j < shorterTable.length; j++) {
+          let sameObj = {} //generate single-key obj for EACH shorterTable row
+          if (shorterTable[j] && longerTable[i]) {
+            if (shorterTable[j][shorterTableColName] == longerTable[i][longerTableColName]) {
+              match = true
+            }
+            if (match) {
+              sameObj['recordID'] = longerTable[i]['record_id']
+              sameObj['match'] = longerTable[i][longerTableColName]
+              sameArr.push(sameObj)
+              longerTable.splice(i, 1) //remove match from longerTable
+              shorterTable.splice(j, 1, 'shorterPlaceHolder') //replace match from shorterTable with placeholder
+            } else {
+              sameObj['recordID'] = longerTable[i]['record_id']
+              sameObj['noMatch'] = longerTable[i][longerTableColName]
+              sameArr.push(sameObj)
+              longerTable.splice(i, 1) //remove match from longerTable
+            }
           }
         }
-        compareUnequalListsArr.push(compareQueryResObj)
-        // console.log('compareUnequalListsArr[\'match\']==>', compareUnequalListsArr[i]['match'])
       }
-
-      // for (let i = 0; i < shorterTable.length; i++) {
-      //   let compareQueryResObj = {} //generate single-key obj for EACH Table1 row
-
-      //   for (let j = 0; j < longerTable.length; j++) {
-      //     if (longerTable[j][longerTableColName] == shorterTable[i][shorterTableColName]) {
-      //       compareQueryResObj['recordID'] = longerTable[j]['record_id']
-      //       compareQueryResObj['match'] = longerTable[j][longerTableColName]
-      //     } else {
-      //       compareQueryResObj['noMatch'] = compareQueryResObj[j] = longerTable[j][longerTableColName]
-      //       longerTable.splice(j, 1)
-      //     }
-      //   }
-      //   compareUnequalListsArr.push(compareQueryResObj)
-      //   // console.log('compareUnequalListsArr[\'match\']==>', compareUnequalListsArr[i]['match'])
-      // }
-
-      console.log('compareUnequalListsArr==>', compareUnequalListsArr)
-
+      console.log('sameArr==>', sameArr)
     }
 
     connection.query(
@@ -105,7 +98,7 @@ module.exports = {
 
         res.render('vw-compareUnequalLists', { //render searchResults to vw-retailCalcPassport page
           title: 'Compare (unequal) Lists/Tables',
-          comparedLists: compareUnequalListsArr
+          comparedLists: sameArr
         })
       })
 
