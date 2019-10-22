@@ -82,6 +82,27 @@ module.exports = {
           }
         }
       }
+      // for (let i = 0; i < longerTable.length; i++) {
+
+      //   for (let j = 0; j < shorterTable.length; j++) {//YOU MUST CHECK FOR MATCH & SET AS FALSE AT THE BEGINNING, OR
+      //     //THIS DOESN'T WORK RIGHT; SEE ABOVE CODE
+      //     let sameObj = {} //generate single-key obj for EACH shorterTable row
+      //     if (shorterTable[j] && longerTable[i]) {
+      //       if (shorterTable[j][shorterTableColName] == longerTable[i][longerTableColName]) {
+      //         sameObj['recordID'] = longerTable[i]['record_id']
+      //         sameObj['match'] = longerTable[i][longerTableColName]
+      //         sameArr.push(sameObj)
+      //         longerTable.splice(i, 1) //remove match from longerTable
+      //         shorterTable.splice(j, 1, 'shorterPlaceHolder') //replace match from shorterTable with placeholder
+      //       } else {
+      //         sameObj['recordID'] = longerTable[i]['record_id']
+      //         sameObj['noMatch'] = longerTable[i][longerTableColName]
+      //         sameArr.push(sameObj)
+      //         longerTable.splice(i, 1) //remove match from longerTable
+      //       }
+      //     }
+      //   }
+      // }
       console.log('sameArr==>', sameArr)
     }
 
