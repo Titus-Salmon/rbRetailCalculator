@@ -292,6 +292,7 @@ module.exports = {
       //   genericHeaderObj.costHeader = splitFieldResult[i]
       // } <-- targeted rb_cost; this was causing items that we apparently don't carry to be included in DOM table,
       //and also consequently in retail IMW, which we don't want... SHOULD target item_cost; see below
+      //N.B. IF item_cost = "", IT MEANS THIS ITEM IS NOT IN THE CURRENT EDI CATALOG (BUT IT MAY HAVE A rb_cost, BECAUSE IT WAS ONCE A PRODUCT WE ORDERED)
       if (splitFieldResult[i] !== 'discount_cost' && splitFieldResult[i] !== 'rb_cost' && splitFieldResult[i] !== 'rb_cost_status' && splitFieldResult[i].includes('cost')) { //Last Cost(?) ==>updated WS
         genericHeaderObj.costHeader = splitFieldResult[i]
       }
