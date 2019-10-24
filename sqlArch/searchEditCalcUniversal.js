@@ -288,7 +288,11 @@ module.exports = {
       if (splitFieldResult[i] !== 'item_name' && splitFieldResult[i].includes('name')) { //Item Name (6)
         genericHeaderObj.nameHeader = splitFieldResult[i]
       }
-      if (splitFieldResult[i] !== 'item_cost' && splitFieldResult[i] !== 'rb_cost_status' && splitFieldResult[i].includes('cost')) { //Last Cost(?) ==>updated WS
+      // if (splitFieldResult[i] !== 'discount_cost' && splitFieldResult[i] !== 'item_cost' && splitFieldResult[i] !== 'rb_cost_status' && splitFieldResult[i].includes('cost')) { //Last Cost(?) ==>updated WS
+      //   genericHeaderObj.costHeader = splitFieldResult[i]
+      // } <-- targeted rb_cost; this was causing items that we apparently don't carry to be included in DOM table,
+      //and also consequently in retail IMW, which we don't want... SHOULD target item_cost; see below
+      if (splitFieldResult[i] !== 'discount_cost' && splitFieldResult[i] !== 'rb_cost' && splitFieldResult[i] !== 'rb_cost_status' && splitFieldResult[i].includes('cost')) { //Last Cost(?) ==>updated WS
         genericHeaderObj.costHeader = splitFieldResult[i]
       }
       if (splitFieldResult[i].includes('item_price') || splitFieldResult[i].includes('msrp')) { //Suggested Retail ==>msrp?
@@ -336,14 +340,14 @@ module.exports = {
             srcRsObj['reqdRetail'] = reviewObj['reqdRetail'] = (-(srcRsObj['cost'] - srcRsObj['cost'] * discountToApply) / (departmentMargin - 1)) //applies margin to WS
             //AND also applies any % discount; discountToApply is set at default 0
             console.log('srcRsObj[\'reqdRetail\']|||>>', srcRsObj['reqdRetail'])
-            if (srcRsObj['reqdRetail'] % 1 < .10 && srcRsObj['reqdRetail'] > 0) {
+            if (srcRsObj['reqdRetail'] % 1 < .10 && srcRsObj['reqdRetail'] > 0) { //change charm price to (#-1).99 if req'd rtl is #.00 -> #.10
               dbl0Or10CharmResult = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 - .01
               // reviewObj['charm'] = srcRsObj['charm'] = '"' + dbl0Or10CharmResult + '"'
               reviewObj['charm'] = srcRsObj['charm'] = dbl0Or10CharmResult
               return reviewObj['charm'] = srcRsObj['charm']
             } else {
               if (srcRsObj['reqdRetail'] > 0) {
-                if (srcRsObj['reqdRetail'] < lowerCutRqdRtl) {
+                if (srcRsObj['reqdRetail'] < lowerCutRqdRtl) { //if req'd rtl is below lower cutoff
                   if ((srcRsObj['reqdRetail'] % 1) < .20) {
                     if (lowerCutoffCharm1 > 0) {
                       return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm1
@@ -394,29 +398,29 @@ module.exports = {
                     }
                   }
                 } else {
-                  if (srcRsObj['reqdRetail'] < upperCharmRqdRtl) {
-                    if ((srcRsObj['reqdRetail'] % 1) < .30) {
+                  if (srcRsObj['reqdRetail'] < upperCharmRqdRtl) { //if req'd rtl is below upper charm cutoff ($12 for Brad & $9999 for Andrea)
+                    if ((srcRsObj['reqdRetail'] % 1) <= .35) { //bump anything from #.10 to #.35 ==> #.29
                       if (defaultCharm1 > 0) {
                         return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm1
                       } else {
                         return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm2
                       }
                     }
-                    if ((srcRsObj['reqdRetail'] % 1) < .40) {
+                    if ((srcRsObj['reqdRetail'] % 1) <= .55) { //bump anything from #.36 to #.55 ==> #.49
                       if (defaultCharm2 > 0) {
                         return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm2
                       } else {
                         return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
                       }
                     }
-                    if ((srcRsObj['reqdRetail'] % 1) < .80) {
+                    if ((srcRsObj['reqdRetail'] % 1) <= .85) { //bump anything from #.56 to #.85 ==> #.79
                       if (defaultCharm3 > 0) {
                         return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
                       } else {
                         return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
                       }
                     }
-                    if ((srcRsObj['reqdRetail'] % 1) > .80) {
+                    if ((srcRsObj['reqdRetail'] % 1) >= .86) { //bump anything from #.86 and higher ==> #.99
                       if (lowerCutoffCharm4 > 0) {
                         return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
                       }
@@ -452,7 +456,7 @@ module.exports = {
         srcRsObj['brand'] = "" //Brand
 
         if (typeOfIMW.toLowerCase() == 'new') {
-          if (rows[i][genericHeaderObj.nameHeader].includes(',')) {
+          if (rows[i][genericHeaderObj.nameHeader].includes(',')) { //remove any commas from item names, so csv isn't horked
             var cleanedName = rows[i][genericHeaderObj.nameHeader].replace(',', '')
             srcRsObj['itemName'] = cleanedName
           } else {
@@ -470,7 +474,8 @@ module.exports = {
         //For now, if it is an issue with Tom, just manually change sugstdRtl column to be same as charm column)
 
 
-        if (typeOfIMW.toLowerCase() == 'wholesale' || typeOfIMW.toLowerCase() == 'new') {
+        if (typeOfIMW.toLowerCase() == 'wholesale' || typeOfIMW.toLowerCase() == 'new') { //include ws (last cost) for new &
+          //wholesale IMWs
           srcRsObj['lastCost'] = rows[i][genericHeaderObj.costHeader]
         } else {
           srcRsObj['lastCost'] = "" //Last Cost is used for ws cost in IMWs (need for WS update IMWs & new item IMWs, but not for retail update IMWs)
@@ -503,7 +508,7 @@ module.exports = {
         srcRsObj['pf3'] = "" //Power Field 3 try to get department margin
         // reviewObj['pf3'] = //Power Field 3 revealAppliedMarg()
         srcRsObj['pf4'] = "" //Power Field 4
-        //todo: need to provide different update messages, based on what type of update you're doing (i.e. ws IMW, retail IMW, new item IMW)
+        //v//provide different update messages, based on what type of update you're doing (i.e. ws IMW, retail IMW, new item IMW)
         if (typeOfIMW.toLowerCase() == 'wholesale') {
           srcRsObj['pf5'] = new Date().toISOString().split('T', 1)[0] + " WS UPDT (pf5)" //Power Field 5 - today's date
         }
@@ -513,6 +518,8 @@ module.exports = {
         if (typeOfIMW.toLowerCase() == 'new') {
           srcRsObj['pf5'] = new Date().toISOString().split('T', 1)[0] + " NEW ITEM UPDT (pf5)" //Power Field 5 - today's date
         }
+        //^//provide different update messages, based on what type of update you're doing (i.e. ws IMW, retail IMW, new item IMW)
+
         // srcRsObj['pf5'] = new Date().toISOString().split('T', 1)[0] + "RTL UPDT (pf5)" //Power Field 5 - today's date
         srcRsObj['pf6'] = rows[i][genericHeaderObj.rbSupplierHeader] //Power Field 6 //EDI-VENDORNAME INCLUDE in save2CSVreview export data
         reviewObj['pf6'] = rows[i][genericHeaderObj.rbSupplierHeader] //Power Field 6 //EDI-VENDORNAME INCLUDE in save2CSVreview export data
