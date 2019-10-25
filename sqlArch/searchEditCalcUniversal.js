@@ -21,13 +21,9 @@ module.exports = {
     csvContainer = []
     console.log('csvContainer from router.post level===>', csvContainer)
 
-
     const postBody = req.body
-    console.log('postBody==>', postBody)
-    console.log('postBody[\'fldArrToPostPost\']==>', postBody['fldArrToPostPost'])
-    console.log('postBody[\'fldArrToPostPost\'][0]==>', postBody['fldArrToPostPost'][0])
 
-    //v//create variables for form POST data from #retailCalcPassport form ('Search Loaded Table')
+    //v//create variables for form POST data from #retailCalcUniversal form ('Search Loaded Table')
     let formInput0 = Object.values(postBody)[0] //tblNameToPostPost
     let formInput1 = Object.values(postBody)[1] //fldArrToPostPost
     let formInput2 = Object.values(postBody)[2] //beerAlcMargPost
@@ -121,46 +117,11 @@ module.exports = {
 
     let formInput70 = Object.values(postBody)[70] //wsDiffResultsPost
 
-    let formInput71 = Object.values(postBody)[71] //typeOfIMWPost
+    let formInput71 = Object.values(postBody)[71] //typeOfIMWPost - type of Inventory Maint. Worksht.
     let typeOfIMW = formInput71
     console.log('typeOfIMW==>', typeOfIMW)
+    //^//create variables for form POST data from #retailCalcUniversal form ('Search Loaded Table')
 
-    console.log('formInput0(from retailCalcPassport)==>', formInput0)
-    console.log('formInput1(from retailCalcPassport)==>', formInput1)
-    console.log('formInput2(from retailCalcPassport)==>', formInput2)
-    console.log('formInput3(from retailCalcPassport)==>', formInput3)
-    console.log('formInput4(from retailCalcPassport)==>', formInput4)
-    console.log('formInput5(from retailCalcPassport)==>', formInput5)
-    console.log('formInput6(from retailCalcPassport)==>', formInput6)
-    console.log('formInput7(from retailCalcPassport)==>', formInput7)
-    console.log('formInput8(from retailCalcPassport)==>', formInput8)
-    console.log('formInput9(from retailCalcPassport)==>', formInput9)
-    console.log('formInput10(from retailCalcPassport)==>', formInput10)
-    console.log('formInput11(from retailCalcPassport)==>', formInput11)
-    console.log('formInput12(from retailCalcPassport)==>', formInput12)
-    console.log('formInput13(from retailCalcPassport)==>', formInput13)
-    console.log('formInput14(from retailCalcPassport)==>', formInput14)
-    console.log('formInput15(from retailCalcPassport)==>', formInput15)
-    console.log('formInput16(from retailCalcPassport)==>', formInput16)
-    console.log('formInput17(from retailCalcPassport)==>', formInput17)
-    console.log('formInput18(from retailCalcPassport)==>', formInput18)
-
-    console.log('formInput49(from retailCalcPassport)==>', formInput49)
-    console.log('formInput50(from retailCalcPassport)==>', formInput50)
-    console.log('formInput51(from retailCalcPassport)==>', formInput51)
-    console.log('formInput52(from retailCalcPassport)==>', formInput52)
-
-    console.log('formInput55(from retailCalcPassport)==>', formInput55)
-
-    console.log('formInput62(from retailCalcPassport)==>', formInput62)
-    console.log('formInput63(from retailCalcPassport)==>', formInput63)
-    console.log('formInput64(from retailCalcPassport)==>', formInput64)
-    console.log('formInput65(from retailCalcPassport)==>', formInput65)
-
-    console.log('formInput68(from retailCalcPassport)==>', formInput68)
-
-    console.log('formInput70(from retailCalcPassport)==>', formInput70)
-    //^//create variables for form POST data from #retailCalcPassport form ('Search Loaded Table')
 
     let loadedSqlTbl = postBody['tblNameToPostPost']
 
@@ -243,21 +204,11 @@ module.exports = {
     if (postBody['wsDiffResultsPost'].length > 0) { //must check to see if anything was entered in WS Diff Results
       //input, otherwise get 'unexpected end of JSON' error
       let wsDiffResults = JSON.parse(postBody['wsDiffResultsPost'])
-      console.log('wsDiffResults from vw-retailCalcPassport.pug wsDiffResultsPost~~~>', wsDiffResults)
-      console.log('wsDiffResults.length from vw-retailCalcPassport.pug wsDiffResultsPost~~~>', wsDiffResults.length)
+      console.log('wsDiffResults from vw-retailCalcUniversal.pug wsDiffResultsPost~~~>', wsDiffResults)
+      console.log('wsDiffResults.length from vw-retailCalcUniversal.pug wsDiffResultsPost~~~>', wsDiffResults.length)
     }
 
-    // let wsDiffRes_t0d = wholesaleDiffT0d.wsDifferenceArr
-
-    // console.log('wsDiffResults==>', wsDiffResults)
-
-    // //v/// WS COMPARISON (old cat vs new cat, using margin report CSV data) ////////////////////////////////////////
-    // let wsDiffTable1 = postBody['wsDiffTable1Post']
-    // let wsDiffTable2 = postBody['wsDiffTable2Post']
-    // //^/// WS COMPARISON (old cat vs new cat, using margin report CSV data) ////////////////////////////////////////
-
-
-    //v//sanitize table column header post results from #retailCalcPassport form ('Search Loaded Table')
+    //v//sanitize table column header post results from #retailCalcUniversal form ('Search Loaded Table')
     let toSplitField = postBody['fldArrToPostPost']
     console.log('toSplitField before replace==>', toSplitField)
     let sanitizeColumnFields = /(\[)|(\])|(")/g
@@ -265,7 +216,7 @@ module.exports = {
     console.log('toSplitFieldReplace after replace==>', toSplitFieldReplace)
     let splitFieldResult = toSplitFieldReplace.split(',')
     console.log('splitFieldResult==>', splitFieldResult)
-    //^//sanitize table column header post results from #retailCalcPassport form ('Search Loaded Table')
+    //^//sanitize table column header post results from #retailCalcUniversal form ('Search Loaded Table')
 
     //v//generate generic column headers corresponding to margin_report table column headers that are associated with
     //primary key, upc, sku, name, cost, & msrp
@@ -799,7 +750,7 @@ module.exports = {
           if (err) throw err
           showSearchResults(rows)
 
-          res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
+          res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcUniversal page
             title: 'Retail Price Calculator (Universal)',
             searchResRows: searchResults,
             loadedSqlTbl: loadedSqlTbl
@@ -823,7 +774,7 @@ module.exports = {
               } else { //if records found for search string entered, add them to searchResults
                 showSearchResults(rows)
 
-                res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
+                res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcUniversal page
                   title: 'Retail Price Calculator (Universal)',
                   searchResRows: searchResults,
                   // wsDiff: wholesaleDiffT0d.wsDifferenceArr
@@ -843,7 +794,7 @@ module.exports = {
           if (err) throw err
           showSearchResults(rows)
 
-          res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
+          res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcUniversal page
             title: 'Retail Price Calculator (Universal)',
             searchResRows: searchResults,
             loadedSqlTbl: loadedSqlTbl
@@ -867,7 +818,7 @@ module.exports = {
               } else { //if records found for search string entered, add them to searchResults
                 showSearchResults(rows)
 
-                res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
+                res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcUniversal page
                   title: 'Retail Price Calculator (Universal)',
                   searchResRows: searchResults,
                   // wsDiff: wholesaleDiffT0d.wsDifferenceArr

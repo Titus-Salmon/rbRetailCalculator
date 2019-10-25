@@ -91,8 +91,15 @@ module.exports = {
 
         wsDiffScanResults(rows)
 
-        res.render('vw-retailCalcSimple', { //render searchResults to vw-retailCalcPassport page
-          title: 'Retail Price Calculator w/ WS Comparison (simple)',
+        // res.render('vw-retailCalcSimple', { //render searchResults to vw-retailCalcPassport page
+        //   title: 'Retail Price Calculator w/ WS Comparison (simple)',
+        //   // searchResRows: searchResults,
+        //   // loadedSqlTbl: loadedSqlTbl,
+        //   wsDiff: wsDifferenceArr
+        // })
+
+        res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
+          title: 'Retail Price Calculator w/ WS Comparison (universal)',
           // searchResRows: searchResults,
           // loadedSqlTbl: loadedSqlTbl,
           wsDiff: wsDifferenceArr
