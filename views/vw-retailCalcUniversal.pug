@@ -21,8 +21,11 @@ html
 				label.input-label-1(for='ldTblName') Table Name to Load
 				input#ldTblName.input-unit-1(type='text', placeholder='enter data1', name='ldTblNamePost', value='')
 
-				label.input-label-1(for='wsDiffResults') WS Diff Results
+				label.input-label-1(for='wsDiffResultsLoadTbl') WS Diff Results
 				input#wsDiffResultsLoadTbl.input-unit-1(type='text', name='wsDiffResultsLoadTblPost' value=wsDiff)
+
+				label.input-label-1(for='newItemResultsLoadTable') New Item Results
+				input#newItemResultsLoadTable.input-unit-1(type='text', name='newItemResultsLoadTblPost' value=newItem)
 
 				button#ldTblBtn(type='submit', form='loadTable') Load Table
 
@@ -291,6 +294,10 @@ html
 				label.input-label-1(for='wsDiffResults') WS Diff Results
 				input#wsDiffResults.input-unit-1(type='text', name='wsDiffResultsPost' value=wsDiff)
 
+			div(style="display:block")
+				label.input-label-1(for='newItemResults') New Item Results
+				input#newItemResults.input-unit-1(type='text', name='newItemResultsPost' value=newItem)
+
 			//- input#typeOfIMW.input-unit-1(type='text', placeholder='Type of IMW', name='typeOfIMWPost', value='')
 			select#typeOfIMW.input-unit-1(name='typeOfIMPost')
 				option(value='wholesale') Wholesale Update IMW
@@ -337,6 +344,7 @@ html
 						th(onclick="sortTable(10)") rb_dept_id
 						th(onclick="sortTable(11)") rb_dept_margin
 						th(onclick="sortTable(12)") wsDiff
+						th(onclick="sortTable(13)") New Item?
 
 
 				tbody#resTblBdy
@@ -356,6 +364,7 @@ html
 								td= elmnt.rb_dept_id
 								td= elmnt.rb_dept_margin
 								td= elmnt.wsDiff_t0d
+								td= elmnt.newItem_t0d
 									//- label.input-label-1(for='mrgnVl') margin value
 									//- input#mrgVl.input-unit-1(type='number', placeholder='0', name='mrgVldPost', value='')
 

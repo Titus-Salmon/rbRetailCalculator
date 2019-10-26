@@ -20,6 +20,7 @@ module.exports = {
     const loadTablePostBody = req.body
     let tableNameToLoad = loadTablePostBody['ldTblNamePost']
     let wsDiffResults = loadTablePostBody['wsDiffResultsLoadTblPost']
+    let newItemResults = loadTablePostBody['newItemResultsLoadTblPost']
 
     let sqlQuery2 = 'SELECT * FROM ' + tableNameToLoad + ';' + 'SHOW COLUMNS FROM ' + tableNameToLoad + ';'
     connection.query(sqlQuery2, (error, response, rows) => {
@@ -51,7 +52,8 @@ module.exports = {
             tableLoadError: loadErrors,
             tableFields: FieldArray
           },
-          wsDiff: wsDiffResults
+          wsDiff: wsDiffResults,
+          newItem: newItemResults
         });
       }
     })

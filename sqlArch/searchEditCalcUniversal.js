@@ -116,9 +116,11 @@ module.exports = {
     let formInput69 = Object.values(postBody)[69] //msrpPost
 
     let formInput70 = Object.values(postBody)[70] //wsDiffResultsPost
+    let formInput71 = Object.values(postBody)[71] //newItemResultsPost
+    console.log('formInput71==>', formInput71)
 
-    let formInput71 = Object.values(postBody)[71] //typeOfIMWPost - type of Inventory Maint. Worksht.
-    let typeOfIMW = formInput71
+    let formInput72 = Object.values(postBody)[72] //typeOfIMWPost - type of Inventory Maint. Worksht.
+    let typeOfIMW = formInput72
     console.log('typeOfIMW==>', typeOfIMW)
     //^//create variables for form POST data from #retailCalcUniversal form ('Search Loaded Table')
 
@@ -206,6 +208,13 @@ module.exports = {
       let wsDiffResults = JSON.parse(postBody['wsDiffResultsPost'])
       console.log('wsDiffResults from vw-retailCalcUniversal.pug wsDiffResultsPost~~~>', wsDiffResults)
       console.log('wsDiffResults.length from vw-retailCalcUniversal.pug wsDiffResultsPost~~~>', wsDiffResults.length)
+    }
+
+    if (postBody['newItemResultsPost'].length > 0) { //must check to see if anything was entered in WS Diff Results
+      //input, otherwise get 'unexpected end of JSON' error
+      let newItemResults = JSON.parse(postBody['newItemResultsPost'])
+      console.log('newItemResults from vw-retailCalcUniversal.pug newItemResultsPost~~~>', newItemResults)
+      console.log('newItemResults.length from vw-retailCalcUniversal.pug newItemResultsPost~~~>', newItemResults.length)
     }
 
     //v//sanitize table column header post results from #retailCalcUniversal form ('Search Loaded Table')
@@ -514,6 +523,8 @@ module.exports = {
         srcRsObj['sale_flag'] = rows[i][genericHeaderObj.saleFlagHeader] //INCLUDE in save2CSVreview export data
         reviewObj['sale_flag'] = rows[i][genericHeaderObj.saleFlagHeader]
 
+        console.log('postBody[\'wsDiffResultsPost\'] from searchEditCalcUniversal==>', postBody['wsDiffResultsPost'])
+
         if (postBody['wsDiffResultsPost'] !== undefined && postBody['wsDiffResultsPost'].length > 0) { //must check to see if anything was entered in WS Diff Results
           //input, otherwise wsDiffResults will be undefined
           let wsDiffResults = JSON.parse(postBody['wsDiffResultsPost'])
@@ -522,6 +533,32 @@ module.exports = {
               srcRsObj['wsDiff_t0d'] = wsDiffResults[j]['wsDiffNewTable_upc'] //INCLUDE in save2CSVreview export data
               reviewObj['wsDiff_t0d'] = wsDiffResults[j]['wsDiffNewTable_upc'] //INCLUDE in save2CSVreview export data
               console.log('wsDiffResults[j][\'wsDiffNewTable_upc\']##>>', wsDiffResults[j]['wsDiffNewTable_upc'])
+
+              // console.log('wsDiffResults[' + j + '] from within LOOP=====>', wsDiffResults[j])
+              // if (wsDiffResults[j]['wsDiffNewTable_newItem']) {
+              //   console.log('wsDiffResults[j][\'wsDiffNewTable_newItem\'] from within LUPE==>', wsDiffResults[j]['wsDiffNewTable_newItem'])
+              //   srcRsObj['wsDiff_newItem'] = wsDiffResults[j]['wsDiffNewTable_newItem']
+              //   reviewObj['wsDiff_newItem'] = wsDiffResults[j]['wsDiffNewTable_newItem']
+              // }
+            }
+
+            // console.log('wsDiffResults['+j+'] from within LOOP=====>', wsDiffResults[j])
+            // if (wsDiffResults[j]['wsDiffNewTable_newItem']) {
+            //   console.log('wsDiffResults[j][\'wsDiffNewTable_newItem\'] from within LUPE==>', wsDiffResults[j]['wsDiffNewTable_newItem'])
+            //   srcRsObj['wsDiff_newItem'] = wsDiffResults[j]['wsDiffNewTable_newItem']
+            //   reviewObj['wsDiff_newItem'] = wsDiffResults[j]['wsDiffNewTable_newItem']
+            // }
+          }
+        }
+
+        if (postBody['newItemResultsPost'] !== undefined && postBody['newItemResultsPost'].length > 0) { //must check to see if anything was entered in WS Diff Results
+          //input, otherwise newItemResults will be undefined
+          let newItemResults = JSON.parse(postBody['newItemResultsPost'])
+          for (let j = 0; j < newItemResults.length; j++) {
+            if (srcRsObj['upc'] == newItemResults[j]['newItem']) {
+              srcRsObj['newItem_t0d'] = newItemResults[j]['newItem'] //INCLUDE in save2CSVreview export data
+              reviewObj['newItem_t0d'] = newItemResults[j]['newItem'] //INCLUDE in save2CSVreview export data
+              console.log('newItemResults[j][\'newItem\']##>>', newItemResults[j]['newItem'])
             }
           }
         }
