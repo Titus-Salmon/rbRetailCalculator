@@ -16,28 +16,20 @@ module.exports = {
 
     let wsDifferenceArr = []
 
-
     const postBody = req.body
-    console.log('postBody==>', postBody)
 
     //v/// WS COMPARISON (old cat vs new cat, using margin report CSV data) ////////////////////////////////////////
     let wsDiffTableOld = postBody['wsDiffTable1Post']
     let wsDiffTableNew = postBody['wsDiffTable2Post']
     //^/// WS COMPARISON (old cat vs new cat, using margin report CSV data) ////////////////////////////////////////
 
-
-
     function wsDiffScanResults(rows) {
-      // console.log('rows from wsDiffTableJoin(rows)==>', rows)
+
       console.log('rows.length==>', rows.length)
 
-      let newTableQuery = rows[0]
-      console.log('newTableQuery.length==>', newTableQuery.length)
-      console.log('newTableQuery==>', newTableQuery)
+      let newTableQuery = rows[0] //1st SQL query (see below)
 
-      let oldTableQuery = rows[1]
-      console.log('oldTableQuery.length==>', oldTableQuery.length)
-      console.log('oldTableQuery==>', oldTableQuery)
+      let oldTableQuery = rows[1] //2nd SQL query (see below)
 
       if (newTableQuery.length > oldTableQuery.length) {
         var longerTable = newTableQuery
@@ -49,32 +41,25 @@ module.exports = {
 
       for (let i = 0; i < newTableQuery.length; i++) {
         let wsDiffQueryResObj = {} //generate single-key obj for EACH newTable row
-        let newTblCost = newTableQuery[i]['rb_cost']
-        let oldTblCost = oldTableQuery[i]['rb_cost']
-        if (!isNaN(newTblCost)) { //make sure your cost entry is a number
+        if (!isNaN(newTableQuery[i]['rb_cost'])) { //make sure your cost entry is a number
           for (let j = 0; j < longerTable.length; j++) {
             if (longerTable[j]['rb_upc'] == shorterTable[i]['rb_upc']) {
               if ((longerTable[j]['rb_cost'] > (shorterTable[i]['rb_cost'] + .05 * shorterTable[i]['rb_cost'])) ||
                 (longerTable[j]['rb_cost'] < (shorterTable[i]['rb_cost'] - .05 * shorterTable[i]['rb_cost'])) ||
                 (shorterTable[i]['rb_cost'] > (longerTable[j]['rb_cost'] + .05 * longerTable[j]['rb_cost'])) ||
                 (shorterTable[i]['rb_cost'] < (longerTable[j]['rb_cost'] - .05 * longerTable[j]['rb_cost']))) {
-                console.log('newTblCost==>', newTblCost)
-                console.log('oldTblCost==>', oldTblCost)
+
                 wsDiffQueryResObj['wsDiffNewTable_upc'] = newTableQuery[i]['rb_upc']
                 wsDiffQueryResObj['wsDiffNewTable_name'] = newTableQuery[i]['rb_name']
-                wsDiffQueryResObj['wsDiffNewTable_cost'] = newTblCost
+                wsDiffQueryResObj['wsDiffNewTable_cost'] = newTableQuery[i]['rb_cost']
               }
             }
           }
         }
         wsDifferenceArr.push(wsDiffQueryResObj)
       }
-
       console.log('wsDifferenceArr==>', wsDifferenceArr)
-
     }
-
-
 
     connection.query(
       "SELECT DISTINCT new.rb_upc, new.rb_cost, new.rb_name FROM " + //this will appear in rows[0] (newTableQuery)
@@ -91,8 +76,8 @@ module.exports = {
 
         wsDiffScanResults(rows)
 
-        res.render('vw-retailCalcSimple', { //render searchResults to vw-retailCalcPassport page
-          title: 'Retail Price Calculator w/ WS Comparison (simple)',
+        res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
+          title: 'Retail Price Calculator w/ WS Comparison (un1v3rs4l)',
           // searchResRows: searchResults,
           // loadedSqlTbl: loadedSqlTbl,
           wsDiff: wsDifferenceArr
