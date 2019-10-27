@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
+//v//destructuring////////////////////////////////
 const {
   ensureAuthenticated
 } = require('../config/auth-t0dt1tz1')
@@ -28,18 +29,8 @@ const {
 const {
   save2CSVReview
 } = require('../sqlArch/save2CSVreview')
+//^//destructuring////////////////////////////////
 
-// const mysql = require('mysql')
-// const connection = mysql.createConnection({
-//   host: process.env.RETAILCALC_HOST,
-//   user: process.env.RETAILCALC_USER,
-//   password: process.env.RETAILCALC_PW,
-//   database: process.env.RETAILCALC_DB
-// });
-
-// connection.connect(function (err) {
-//   if (err) throw err
-// });
 
 router.get('/', ensureAuthenticated, function (req, res, next) {
   res.render('vw-retailCalcUniversal', {
@@ -47,9 +38,7 @@ router.get('/', ensureAuthenticated, function (req, res, next) {
     username: req.user.name,
     userEmail: req.user.email,
     userEmail_stringified: JSON.stringify(req.user.email),
-    // currentTableName_stringified: JSON.stringify(loadedTable.tableNameToLoad),
   });
-  // console.log('req from /retailCalcSimple==========>', req)
 });
 
 router.post('/createTableSimple', createTableSimple)
@@ -59,6 +48,9 @@ router.post('/loadTableUniversal', loadTableUniversal)
 router.post('/saveCSV', saveResultsToCSV)
 router.post('/saveCSVreview', save2CSVReview)
 
+
+
+//******************************************************************************************************************** */
 //--v////CURRENTLY NOT BEING USED & DB NOT CORRECT//////////////////////////////////////////////////////////////////////
 router.post('/deleteSelection', (req, res, next) => { //take POST request data from vw-dbEditPassport page & delete from database table
   const postBody = req.body;
@@ -83,5 +75,6 @@ router.post('/deleteSelection', (req, res, next) => { //take POST request data f
     });
 });
 //--^////CURRENTLY NOT BEING USED & DB NOT CORRECT//////////////////////////////////////////////////////////////////////
+//******************************************************************************************************************** */
 
 module.exports = router;
