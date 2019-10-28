@@ -12,8 +12,9 @@ const connection = mysql.createConnection({
 module.exports = {
   loadTableUniversal: router.post('/loadTableUniversal', (req, res, next) => {
 
-    console.log('req.body', req.body)
+    console.log('req.body from /loadTableUniversal ==> ', req.body)
     console.log('req.body.length', req.body.length)
+    console.log('Object.keys(req.body).length==>', Object.keys(req.body).length)
     let loadErrors = []
     let FieldArray = []
 
@@ -36,13 +37,18 @@ module.exports = {
           },
         })
       } else {
-        console.log('response (from loadTableUniversal)=====>>', response)
-        console.log('response.length=====>>', response.length)
+        console.log(`the following queries have been successfully performed from loadTableUniversal.js:
+        (1) SELECT * FROM ${tableNameToLoad};
+        (2) SHOW COLUMNS FROM ${tableNameToLoad};
+        This gives a response.length of ==> ${response.length} (one response per query)
+        >>The first response (response[0]) is the entire table. Here is the 1st RowDataPacket of that response, as an example:
+        ${JSON.stringify(response[0][0])}
+        >>The second response (response[1]) is all columns for that table. Here are the 1st 2 RowDataPackets of that response, as an example:
+        ${JSON.stringify(response[1][0])}
+        ${JSON.stringify(response[1][1])}`)
+
         for (let i = 0; i < response[1].length; i++) {
-          console.log('response[1][' + [i] + ']==>', response[1][i])
-          console.log('response[1][' + [i] + '][\'Field\']==>', response[1][i]['Field'])
           FieldArray.push(response[1][i]['Field'])
-          console.log('FieldArray from within connection.query===>', FieldArray)
         }
         res.render('vw-retailCalcUniversal', {
           title: 'Retail Price Calculator (Universal)',
@@ -55,17 +61,6 @@ module.exports = {
         });
       }
     })
-
     console.log('FieldArray from outside, AFTER connection.query===>', FieldArray)
-
-    // res.render('vw-retailCalcPassport', {
-    //   title: 'Retail Price Calculator',
-    //   loadedTable: {
-    //     tableNameToLoad: tableNameToLoad,
-    //     tableLoadError: loadErrors,
-    //     tableFields: FieldArray
-    //   },
-    // });
-
   })
 }

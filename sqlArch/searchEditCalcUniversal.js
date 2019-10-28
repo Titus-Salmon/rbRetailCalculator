@@ -14,20 +14,20 @@ module.exports = {
   searchEditCalcUniversal: router.post('/results', (req, res, next) => {
 
     let searchResults = [] //clear searchResults from previous search
-    console.log('searchResults from router.post level===>', searchResults)
+    console.log('searchEditCalcUniversal says: searchResults from router.post level===>', searchResults)
     searchResultsForCSV = []
     searchResultsForCSVreview = [] //this is for holding data to generate your review excel sheet for Andrea & Brad
-    console.log('searchResultsForCSV from router.post level===>', searchResultsForCSV)
+    console.log('searchEditCalcUniversal says: searchResultsForCSV from router.post level===>', searchResultsForCSV)
     csvContainer = []
-    console.log('csvContainer from router.post level===>', csvContainer)
+    console.log('searchEditCalcUniversal says: csvContainer from router.post level===>', csvContainer)
 
 
     const postBody = req.body
-    console.log('postBody==>', postBody)
-    console.log('postBody[\'fldArrToPostPost\']==>', postBody['fldArrToPostPost'])
-    console.log('postBody[\'fldArrToPostPost\'][0]==>', postBody['fldArrToPostPost'][0])
+    console.log('searchEditCalcUniversal says: postBody==>', postBody)
+    console.log('searchEditCalcUniversal says: postBody[\'fldArrToPostPost\']==>', postBody['fldArrToPostPost'])
+    console.log('searchEditCalcUniversal says: postBody[\'fldArrToPostPost\'][0]==>', postBody['fldArrToPostPost'][0])
 
-    //v//create variables for form POST data from #retailCalcPassport form ('Search Loaded Table')
+    //v//create variables for form POST data from #retailCalcUniversal form ('Search Loaded Table')
     let formInput0 = Object.values(postBody)[0] = loadedSqlTbl = postBody['tblNameToPostPost'] //tblNameToPostPost
     let formInput1 = Object.values(postBody)[1] //fldArrToPostPost
     let formInput2 = Object.values(postBody)[2] = beerAlcMargin = postBody['beerAlcMargPost'] //beerAlcMargPost
@@ -122,25 +122,25 @@ module.exports = {
     let formInput71 = typeOfIMW = Object.values(postBody)[71] //typeOfIMWPost
     console.log('typeOfIMW==>', typeOfIMW)
 
-    //^//create variables for form POST data from #retailCalcPassport form ('Search Loaded Table')
+    //^//create variables for form POST data from #retailCalcUniversal form ('Search Loaded Table')
 
 
     if (postBody['wsDiffResultsPost'].length > 0) { //must check to see if anything was entered in WS Diff Results
       //input, otherwise get 'unexpected end of JSON' error
       let wsDiffResults = JSON.parse(postBody['wsDiffResultsPost'])
-      console.log('wsDiffResults from vw-retailCalcPassport.pug wsDiffResultsPost~~~>', wsDiffResults)
-      console.log('wsDiffResults.length from vw-retailCalcPassport.pug wsDiffResultsPost~~~>', wsDiffResults.length)
+      console.log('searchEditCalcUniversal says: wsDiffResults from vw-retailCalcUniversal.pug wsDiffResultsPost~~~>', wsDiffResults)
+      console.log('searchEditCalcUniversal says: wsDiffResults.length from vw-retailCalcUniversal.pug wsDiffResultsPost~~~>', wsDiffResults.length)
     }
 
-    //v//sanitize table column header post results from #retailCalcPassport form ('Search Loaded Table')
+    //v//sanitize table column header post results from #retailCalcUniversal form ('Search Loaded Table')
     let toSplitField = postBody['fldArrToPostPost']
-    console.log('toSplitField before replace==>', toSplitField)
+    console.log('searchEditCalcUniversal says: toSplitField before replace==>', toSplitField)
     let sanitizeColumnFields = /(\[)|(\])|(")/g
     let toSplitFieldReplace = toSplitField.replace(sanitizeColumnFields, "")
-    console.log('toSplitFieldReplace after replace==>', toSplitFieldReplace)
+    console.log('searchEditCalcUniversal says: toSplitFieldReplace after replace==>', toSplitFieldReplace)
     let splitFieldResult = toSplitFieldReplace.split(',')
-    console.log('splitFieldResult==>', splitFieldResult)
-    //^//sanitize table column header post results from #retailCalcPassport form ('Search Loaded Table')
+    console.log('searchEditCalcUniversal says: splitFieldResult==>', splitFieldResult)
+    //^//sanitize table column header post results from #retailCalcUniversal form ('Search Loaded Table')
 
 
 
@@ -156,7 +156,7 @@ module.exports = {
       if (splitFieldResult[i] !== 'item_upc' && splitFieldResult[i].includes('upc')) { //Item ID (1); want to avoid the 'item_upc' column name in margin reports
         //(this will use rb_upc instead for margin reports, and vendorprefix_upc for edi tables)
         genericHeaderObj.upcHeader = splitFieldResult[i]
-        console.log('genericHeaderObj.upcHeader==>', genericHeaderObj.upcHeader)
+        console.log('searchEditCalcUniversal says: genericHeaderObj.upcHeader==>', genericHeaderObj.upcHeader)
       }
       if (splitFieldResult[i] !== 'item_sku' && splitFieldResult[i].includes('sku')) { //Supplier Unit ID (25)
         genericHeaderObj.skuHeader = splitFieldResult[i]
@@ -195,7 +195,7 @@ module.exports = {
       }
     }
 
-    console.log('genericHeaderObj==>', genericHeaderObj)
+    console.log('searchEditCalcUniversal says: genericHeaderObj==>', genericHeaderObj)
     //^//generate generic column headers corresponding to margin_report table column headers that are associated with
     //primary key, upc, sku, name, cost, & msrp
     //****************************************************************************************************************** */
@@ -215,7 +215,8 @@ module.exports = {
           if (srcRsObj['cost'] > 0) {
             srcRsObj['reqdRetail'] = reviewObj['reqdRetail'] = (-(srcRsObj['cost'] - srcRsObj['cost'] * discountToApply) / (departmentMargin - 1)) //applies margin to WS
             //AND also applies any % discount; discountToApply is set at default 0
-            console.log('srcRsObj[\'reqdRetail\']|||>>', srcRsObj['reqdRetail'])
+            console.log('searchEditCalcUniversal says: srcRsObj[\'reqdRetail\']|||>>', srcRsObj['reqdRetail'])
+            console.log('searchEditCalcUniversal says: srcRsObj[\'cost\']~~~>>', srcRsObj['cost'])
             if (srcRsObj['reqdRetail'] % 1 < .10 && srcRsObj['reqdRetail'] > 0) { //change charm price to (#-1).99 if req'd rtl is #.00 -> #.10
               dbl0Or10CharmResult = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 - .01
               // reviewObj['charm'] = srcRsObj['charm'] = '"' + dbl0Or10CharmResult + '"'
@@ -319,12 +320,10 @@ module.exports = {
           reviewObj['pf3'] = departmentMargin * 100
         }
 
-        console.log('HALLO FROM RIGHT BEFORE srcObj[\'P_K\'] from searchEditCalcUniversal')
-
         srcRsObj['P_K'] = rows[i][genericHeaderObj.primarykeyHeader] //for every row returned from sql query of margin_report table,
         //populate search results onject (srcRsObj) with corresponding primary key mapped to a key of 'P_K' 
         srcRsObj['upc'] = rows[i][genericHeaderObj.upcHeader] //Item ID
-        console.log('srcRsObj[\'upc\']~~~>', srcRsObj['upc'])
+        console.log('searchEditCalcUniversal says: srcRsObj[\'upc\']~~~>', srcRsObj['upc'])
         reviewObj['upc'] = rows[i][genericHeaderObj.upcHeader] //Item ID
         srcRsObj['deptID'] = "" //Department ID
         srcRsObj['deptName'] = "" //Department Name
@@ -445,7 +444,7 @@ module.exports = {
             if (srcRsObj['upc'] == wsDiffResults[j]['wsDiffNewTable_upc']) {
               srcRsObj['wsDiff_t0d'] = wsDiffResults[j]['wsDiffNewTable_upc'] //INCLUDE in save2CSVreview export data
               reviewObj['wsDiff_t0d'] = wsDiffResults[j]['wsDiffNewTable_upc'] //INCLUDE in save2CSVreview export data
-              console.log('wsDiffResults[j][\'wsDiffNewTable_upc\']##>>', wsDiffResults[j]['wsDiffNewTable_upc'])
+              console.log('searchEditCalcUniversal says: wsDiffResults[j][\'wsDiffNewTable_upc\']##>>', wsDiffResults[j]['wsDiffNewTable_upc'])
             }
           }
         }
@@ -656,13 +655,12 @@ module.exports = {
           searchResults.push(srcRsObj)
           searchResultsForCSV.push(srcRsObj)
           searchResultsForCSVreview.push(reviewObj)
-          console.log('srcRsObj==>', srcRsObj)
         }
 
       }
-      console.log('searchResults from showSearchResults()==>', searchResults)
-      console.log('searchResultsForCSV from showSearchResults()==>', searchResultsForCSV)
-      console.log('searchResultsForCSVreview from showSearchResults()==>', searchResultsForCSVreview)
+      console.log('searchEditCalcUniversal says: searchResults from showSearchResults()==>', searchResults)
+      // console.log('searchEditCalcUniversal says: searchResultsForCSV from showSearchResults()==>', searchResultsForCSV)
+      console.log('searchEditCalcUniversal says: searchResultsForCSVreview from showSearchResults()==>', searchResultsForCSVreview)
     }
 
 
@@ -674,7 +672,7 @@ module.exports = {
           if (err) throw err
           showSearchResults(rows)
 
-          res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
+          res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcUniversal page
             title: 'Retail Price Calculator (Universal)',
             searchResRows: searchResults,
             loadedSqlTbl: loadedSqlTbl
@@ -698,7 +696,7 @@ module.exports = {
               } else { //if records found for search string entered, add them to searchResults
                 showSearchResults(rows)
 
-                res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
+                res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcUniversal page
                   title: 'Retail Price Calculator (Universal)',
                   searchResRows: searchResults,
                   // wsDiff: wholesaleDiffT0d.wsDifferenceArr
@@ -718,7 +716,7 @@ module.exports = {
           if (err) throw err
           showSearchResults(rows)
 
-          res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
+          res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcUniversal page
             title: 'Retail Price Calculator (Universal)',
             searchResRows: searchResults,
             loadedSqlTbl: loadedSqlTbl
@@ -742,7 +740,7 @@ module.exports = {
               } else { //if records found for search string entered, add them to searchResults
                 showSearchResults(rows)
 
-                res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
+                res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcUniversal page
                   title: 'Retail Price Calculator (Universal)',
                   searchResRows: searchResults,
                   // wsDiff: wholesaleDiffT0d.wsDifferenceArr

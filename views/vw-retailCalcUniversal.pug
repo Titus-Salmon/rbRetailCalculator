@@ -14,7 +14,7 @@ html
 		hr
 
 		if wsDiff !== undefined
-			- console.log('wsDiff from wholesaleDiff.js==>', wsDiff)
+			- console.log('vw-retailCalcUniversal.pug says: wsDiff from wholesaleDiff.js==>', wsDiff)
 
 		div(style="display:block")
 			form#loadTable(action='/retailCalcUniversal/loadTableUniversal' method='POST' accept-charset="UTF-8")
@@ -27,12 +27,7 @@ html
 				button#ldTblBtn(type='submit', form='loadTable') Load Table
 
 		if loadedTable !== undefined
-			- console.log('locstor2-------->>>>', localStorage)
-			- console.log('loadedTable===--->', loadedTable)
-			- console.log('loadedTable.tableNameToLoad===--->', loadedTable.tableNameToLoad)
-			- console.log('FieldArray==--->', FieldArray)
-			- console.log('loadedTable==>', loadedTable)
-			- console.log('loadedTable.tableLoadError.length==>', loadedTable.tableLoadError.length)
+			- console.log('vw-retailCalcUniversal.pug says \'loadedTable\' object===>', loadedTable)
 
 			input#loadedTblName.input-unit-1(type='text', placeholder='enter data2', name='loadedTblNamePost', readonly, style="background-color:#c2d6d6", value=loadedTable.tableNameToLoad)
 			input#ldTblFields.input-unit-1(type='text', placeholder='enter data', name='ldTblFieldsPost', readonly, style="background-color:#c2d6d6", value=loadedTable.tableFields)
