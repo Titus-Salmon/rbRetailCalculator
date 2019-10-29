@@ -209,113 +209,6 @@ module.exports = {
         let srcRsObj = {}
         let reviewObj = {} //push data to this obj for review CSV
 
-        function calcCharm(departmentMargin, lowerCutRqdRtl, lowerCutoffCharm1, lowerCutoffCharm2, lowerCutoffCharm3, lowerCutoffCharm4,
-          lowerCutoffCharm5, lowerCutoffCharm6, lowerCutoffCharm7, upperCharmRqdRtl, defaultCharm1, defaultCharm2, defaultCharm3, defaultCharm4) {
-          //apply DEPARTMENT margin to calculate charm pricing
-          if (srcRsObj['cost'] > 0) {
-            srcRsObj['reqdRetail'] = reviewObj['reqdRetail'] = (-(srcRsObj['cost'] - srcRsObj['cost'] * discountToApply) / (departmentMargin - 1)) //applies margin to WS
-            //AND also applies any % discount; discountToApply is set at default 0
-            console.log('searchEditCalcUniversal says: srcRsObj[\'reqdRetail\']|||>>', srcRsObj['reqdRetail'])
-            console.log('searchEditCalcUniversal says: srcRsObj[\'cost\']~~~>>', srcRsObj['cost'])
-            if (srcRsObj['reqdRetail'] % 1 < .10 && srcRsObj['reqdRetail'] > 0) { //change charm price to (#-1).99 if req'd rtl is #.00 -> #.10
-              dbl0Or10CharmResult = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 - .01
-              // reviewObj['charm'] = srcRsObj['charm'] = '"' + dbl0Or10CharmResult + '"'
-              reviewObj['charm'] = srcRsObj['charm'] = dbl0Or10CharmResult
-              return reviewObj['charm'] = srcRsObj['charm']
-            } else {
-              if (srcRsObj['reqdRetail'] > 0) {
-                if (srcRsObj['reqdRetail'] < lowerCutRqdRtl) { //if req'd rtl is below lower cutoff
-                  if ((srcRsObj['reqdRetail'] % 1) < .20) {
-                    if (lowerCutoffCharm1 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm1
-                    } else {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm2
-                    }
-                  }
-                  if ((srcRsObj['reqdRetail'] % 1) < .30) {
-                    if (lowerCutoffCharm2 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm2
-                    } else {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm3
-                    }
-                  }
-                  if ((srcRsObj['reqdRetail'] % 1) < .40) {
-                    if (lowerCutoffCharm3 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm3
-                    } else {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm4
-                    }
-                  }
-                  if ((srcRsObj['reqdRetail'] % 1) < .50) {
-                    if (lowerCutoffCharm4 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm4
-                    } else {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm5
-                    }
-                  }
-                  if ((srcRsObj['reqdRetail'] % 1) < .60) {
-                    if (lowerCutoffCharm5 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm5
-                    } else {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm6
-                    }
-                  }
-                  if ((srcRsObj['reqdRetail'] % 1) < .80) {
-                    if (lowerCutoffCharm6 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm6
-                    } else {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm7
-                    }
-                  }
-                  if ((srcRsObj['reqdRetail'] % 1) > .80) {
-                    if (lowerCutoffCharm7 > 0) {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm7
-                    } else {
-                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail']
-                    }
-                  }
-                } else {
-                  if (srcRsObj['reqdRetail'] < upperCharmRqdRtl) { //if req'd rtl is below upper charm cutoff ($12 for Brad & $9999 for Andrea)
-                    if ((srcRsObj['reqdRetail'] % 1) <= .35) { //bump anything from #.10 to #.35 ==> #.29
-                      if (defaultCharm1 > 0) {
-                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm1
-                      } else {
-                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm2
-                      }
-                    }
-                    if ((srcRsObj['reqdRetail'] % 1) <= .55) { //bump anything from #.36 to #.55 ==> #.49
-                      if (defaultCharm2 > 0) {
-                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm2
-                      } else {
-                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
-                      }
-                    }
-                    if ((srcRsObj['reqdRetail'] % 1) <= .85) { //bump anything from #.56 to #.85 ==> #.79
-                      if (defaultCharm3 > 0) {
-                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
-                      } else {
-                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
-                      }
-                    }
-                    if ((srcRsObj['reqdRetail'] % 1) >= .86) { //bump anything from #.86 and higher ==> #.99
-                      if (lowerCutoffCharm4 > 0) {
-                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
-                      }
-                    }
-                  } else {
-                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
-                  }
-                }
-              }
-            }
-
-            // reviewObj['charm'] = srcRsObj['charm']
-          } else {
-            srcRsObj['reqdRetail'] = ""
-            srcRsObj['charm'] = ""
-          }
-        }
-
         function revealAppliedMarg(departmentMargin) {
           reviewObj['pf3'] = departmentMargin * 100
         }
@@ -446,6 +339,113 @@ module.exports = {
               reviewObj['wsDiff_t0d'] = wsDiffResults[j]['wsDiffNewTable_upc'] //INCLUDE in save2CSVreview export data
               console.log('searchEditCalcUniversal says: wsDiffResults[j][\'wsDiffNewTable_upc\']##>>', wsDiffResults[j]['wsDiffNewTable_upc'])
             }
+          }
+        }
+
+        function calcCharm(departmentMargin, lowerCutRqdRtl, lowerCutoffCharm1, lowerCutoffCharm2, lowerCutoffCharm3, lowerCutoffCharm4,
+          lowerCutoffCharm5, lowerCutoffCharm6, lowerCutoffCharm7, upperCharmRqdRtl, defaultCharm1, defaultCharm2, defaultCharm3, defaultCharm4) {
+          //apply DEPARTMENT margin to calculate charm pricing
+          if (srcRsObj['cost'] > 0) {
+            srcRsObj['reqdRetail'] = reviewObj['reqdRetail'] = (-(srcRsObj['cost'] - srcRsObj['cost'] * discountToApply) / (departmentMargin - 1)) //applies margin to WS
+            //AND also applies any % discount; discountToApply is set at default 0
+            console.log('searchEditCalcUniversal says: srcRsObj[\'reqdRetail\']|||>>', srcRsObj['reqdRetail'])
+            console.log('searchEditCalcUniversal says: srcRsObj[\'cost\']~~~>>', srcRsObj['cost'])
+            if (srcRsObj['reqdRetail'] % 1 < .10 && srcRsObj['reqdRetail'] > 0) { //change charm price to (#-1).99 if req'd rtl is #.00 -> #.10
+              dbl0Or10CharmResult = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 - .01
+              // reviewObj['charm'] = srcRsObj['charm'] = '"' + dbl0Or10CharmResult + '"'
+              reviewObj['charm'] = srcRsObj['charm'] = dbl0Or10CharmResult
+              return reviewObj['charm'] = srcRsObj['charm']
+            } else {
+              if (srcRsObj['reqdRetail'] > 0) {
+                if (srcRsObj['reqdRetail'] < lowerCutRqdRtl) { //if req'd rtl is below lower cutoff
+                  if ((srcRsObj['reqdRetail'] % 1) < .20) {
+                    if (lowerCutoffCharm1 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm1
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm2
+                    }
+                  }
+                  if ((srcRsObj['reqdRetail'] % 1) < .30) {
+                    if (lowerCutoffCharm2 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm2
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm3
+                    }
+                  }
+                  if ((srcRsObj['reqdRetail'] % 1) < .40) {
+                    if (lowerCutoffCharm3 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm3
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm4
+                    }
+                  }
+                  if ((srcRsObj['reqdRetail'] % 1) < .50) {
+                    if (lowerCutoffCharm4 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm4
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm5
+                    }
+                  }
+                  if ((srcRsObj['reqdRetail'] % 1) < .60) {
+                    if (lowerCutoffCharm5 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm5
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm6
+                    }
+                  }
+                  if ((srcRsObj['reqdRetail'] % 1) < .80) {
+                    if (lowerCutoffCharm6 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm6
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm7
+                    }
+                  }
+                  if ((srcRsObj['reqdRetail'] % 1) > .80) {
+                    if (lowerCutoffCharm7 > 0) {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + lowerCutoffCharm7
+                    } else {
+                      return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail']
+                    }
+                  }
+                } else {
+                  if (srcRsObj['reqdRetail'] < upperCharmRqdRtl) { //if req'd rtl is below upper charm cutoff ($12 for Brad & $9999 for Andrea)
+                    if ((srcRsObj['reqdRetail'] % 1) <= .35) { //bump anything from #.10 to #.35 ==> #.29
+                      if (defaultCharm1 > 0) {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm1
+                      } else {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm2
+                      }
+                    }
+                    if ((srcRsObj['reqdRetail'] % 1) <= .55) { //bump anything from #.36 to #.55 ==> #.49
+                      if (defaultCharm2 > 0) {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm2
+                      } else {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
+                      }
+                    }
+                    if ((srcRsObj['reqdRetail'] % 1) <= .85) { //bump anything from #.56 to #.85 ==> #.79
+                      if (defaultCharm3 > 0) {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
+                      } else {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
+                      }
+                    }
+                    if ((srcRsObj['reqdRetail'] % 1) >= .86) { //bump anything from #.86 and higher ==> #.99
+                      if (lowerCutoffCharm4 > 0) {
+                        return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
+                      }
+                    }
+                  } else {
+                    return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
+                  }
+                }
+              }
+            }
+
+            // reviewObj['charm'] = srcRsObj['charm']
+          } else {
+            srcRsObj['reqdRetail'] = ""
+            srcRsObj['charm'] = ""
           }
         }
 
