@@ -44,6 +44,7 @@ const indexRouter = require('./routes/rt-index'); //t0d
 // const retailCalcPassportRouter = require('./routes/rt-retailCalcPassport'); //t0d
 const retailCalcSimpleRouter = require('./routes/rt-retailCalcSimple'); //t0d
 const retailCalcUniversalRouter = require('./routes/rt-retailCalcUniversal'); //t0d
+const retailCalcUniversal_brandTargetingRouter = require('./routes/rt-retailCalcUniversal_brandTargeting'); //t0d
 const usersRouter = require('./routes/rt-users'); //t0d
 
 const editItemPassportRouter = require('./routes/rt-editItemPassport'); //t0d
@@ -120,6 +121,7 @@ app.use('/', indexRouter); //t0d
 // app.use('/retailCalcPassport', retailCalcPassportRouter); //t0d
 app.use('/retailCalcSimple', retailCalcSimpleRouter); //t0d
 app.use('/retailCalcUniversal', retailCalcUniversalRouter); //t0d
+app.use('/retailCalcUniversal_brandTargeting', retailCalcUniversal_brandTargetingRouter); //t0d
 app.use('/users', usersRouter); //t0d
 
 app.use('/editItemPassport', editItemPassportRouter); //t0d
