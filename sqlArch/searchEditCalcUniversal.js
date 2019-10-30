@@ -437,6 +437,9 @@ module.exports = {
         srcRsObj['sale_flag'] = rows[i][genericHeaderObj.saleFlagHeader] //INCLUDE in save2CSVreview export data
         reviewObj['sale_flag'] = rows[i][genericHeaderObj.saleFlagHeader]
 
+        srcRsObj['discountToApply'] = discountToApply * 100
+        reviewObj['discountToApply'] = discountToApply * 100 //INCLUDE in save2CSVreview export data
+
         if (postBody['wsDiffResultsPost'] !== undefined && postBody['wsDiffResultsPost'].length > 0) { //must check to see if anything was entered in WS Diff Results
           //input, otherwise wsDiffResults will be undefined
           let wsDiffResults = JSON.parse(postBody['wsDiffResultsPost'])
