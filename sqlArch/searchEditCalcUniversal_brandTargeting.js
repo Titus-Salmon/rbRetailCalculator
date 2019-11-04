@@ -222,10 +222,9 @@ module.exports = {
               lowerCutoffCharm5, lowerCutoffCharm6, lowerCutoffCharm7, upperCharmRqdRtl, defaultCharm1, defaultCharm2, defaultCharm3, defaultCharm4) {
               //apply DEPARTMENT margin to calculate charm pricing
               if (srcRsObj['cost'] > 0) {
-                srcRsObj['reqdRetail'] = reviewObj['reqdRetail'] = (-(srcRsObj['cost'] - srcRsObj['cost'] * discountToApply) / (departmentMargin - 1)) //applies margin to WS
+                srcRsObj['reqdRetail'] = reviewObj['reqdRetail'] = Math.round((-(srcRsObj['cost'] - srcRsObj['cost'] * discountToApply) / (departmentMargin - 1)) * 100)/100 //applies margin to WS
                 //AND also applies any % discount; discountToApply is set at default 0
-                // console.log('searchEditCalcUniversal_brandTargeting says: srcRsObj[\'reqdRetail\']|||>>', srcRsObj['reqdRetail'])
-                // console.log('searchEditCalcUniversal_brandTargeting says: srcRsObj[\'cost\']~~~>>', srcRsObj['cost'])
+                //Finally, Math.round(number*100)/100 converts the result to a number with just 2 decimal places.
                 if (srcRsObj['reqdRetail'] % 1 < .10 && srcRsObj['reqdRetail'] > 0) { //change charm price to (#-1).99 if req'd rtl is #.00 -> #.10
                   dbl0Or10CharmResult = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 - .01
                   // reviewObj['charm'] = srcRsObj['charm'] = '"' + dbl0Or10CharmResult + '"'
@@ -299,14 +298,22 @@ module.exports = {
                             return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
                           }
                         }
-                        if ((srcRsObj['reqdRetail'] % 1) <= .85) { //bump anything from #.56 to #.85 ==> #.79
+                        if (srcRsObj['reqdRetail'] % 1 <= .855) { //bump anything from #.56 to #.85 ==> #.79 (Brad); Andrea gets bumped
+                          //to #.99 for anything from #.56 to #.85 (because defaultCharm3 for Brad is .79, but for Andrea it is .99)
+                          console.log('srcRsObj[\'reqdRetail\'] (<= .855)==>', srcRsObj['reqdRetail'])
+                          console.log('srcRsObj[\'reqdRetail\'] %1 (<= .855)==>', srcRsObj['reqdRetail']%1)
+                          console.log('defaultCharm2==>', defaultCharm2)
+                          console.log('defaultCharm3==>', defaultCharm3)
+                          console.log('defaultCharm4==>', defaultCharm4)
                           if (defaultCharm3 > 0) {
                             return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm3
                           } else {
                             return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
                           }
                         }
-                        if ((srcRsObj['reqdRetail'] % 1) >= .86) { //bump anything from #.86 and higher ==> #.99
+                        if (srcRsObj['reqdRetail'] % 1 > .856) { //bump anything from #.85+ and higher ==> #.99
+                          console.log('srcRsObj[\'reqdRetail\'] (> .856)==>', srcRsObj['reqdRetail'])
+                          console.log('srcRsObj[\'reqdRetail\'] %1 (> .856)==>', srcRsObj['reqdRetail']%1)
                           if (lowerCutoffCharm4 > 0) {
                             return reviewObj['charm'] = srcRsObj['charm'] = srcRsObj['reqdRetail'] - srcRsObj['reqdRetail'] % 1 + defaultCharm4
                           }
