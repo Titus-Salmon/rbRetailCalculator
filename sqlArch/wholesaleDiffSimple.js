@@ -76,8 +76,8 @@ module.exports = {
 
         wsDiffScanResults(rows)
 
-        res.render('vw-retailCalcUniversal', { //render searchResults to vw-retailCalcPassport page
-          title: 'Retail Price Calculator w/ WS Comparison (un1v3rs4l)',
+        res.render('vw-retailCalcUniversal_brandTargeting', { //render searchResults to vw-retailCalcPassport page
+          title: 'Retail Price Calculator w/ WS Comparison (un1v3rs4l_br4ndT4rg3t1ng)',
           // searchResRows: searchResults,
           // loadedSqlTbl: loadedSqlTbl,
           wsDiff: wsDifferenceArr
