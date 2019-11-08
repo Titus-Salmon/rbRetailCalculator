@@ -1,0 +1,67 @@
+doctype html
+html
+	head
+		link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+
+	body
+		script.
+			console.log('locstor from retailCalcSimple==>', localStorage)
+		include vw-dashboard.pug
+		hr
+
+		div(style="display:block")
+			form#compareTables(action='/retailDiffSimple/calc_Rtl_Diff' method='POST' accept-charset="UTF-8")
+				label.input-label-1(for='compareTables') Tables to Compare - TABLE 1 (old)
+				input#wsDiffTable1.input-unit-1(type='text', placeholder='enter TABLE 1 name', name='retailDiffTable1Post', value='')
+				label.input-label-1(for='compareTables') Tables to Compare - TABLE 2 (new)
+				input#wsDiffTable2.input-unit-1(type='text', placeholder='enter TABLE 2 name', name='retailDiffTable2Post', value='')
+				button#compareTablesBtn(type='submit', form='compareTables') Compare Tables
+
+		div(style="display:block")
+			label.input-label-1(for='retailDiffResults') Retail Diff Results
+			input#retailDiffResults.input-unit-1(type='text', name='retailDiffResultsPost' value=retailDiff)
+
+		button.adminButton#saveCSVreview(type="submit" form="saveCSVreviewPost") Save Results as CSV - Retail Diff
+		form#saveCSVreviewPost(action='/retailDiffSimple/saveCSVretailDiff' method='POST' accept-charset='UTF-8')
+			label.input-label-1(for='csv') filename:
+				input#csvReview.input-unit-1(type='text', placeholder='enter filename here', name='csvPost', value='')
+			if retailDiff !== undefined
+				label.input-label-1(for='csvReviewHeaders') CSV Review headers:
+					input#csvReviewHeaders.input-unit-1(type='text', placeholder='enter data', name='csvHeadersPost', readonly, style="background-color:#c2d6d6", value="retailDiffNewTable_upc, retailDiffOldTable_ItemName, retailDiffOldTable_retail, retailDiffNewTable_charm, retailDiff")
+				label.input-label-1(for='csvReviewData') CSV Review data:
+					input#csvReviewData.input-unit-1(type='text', placeholder='enter data', name='csvReviewDataPost', readonly, style="background-color:#c2d6d6", value=retailDiff)
+		div.rslt-tbl-1
+			table#resTbl
+				thead
+					tr
+						th total # items changed
+						th % items changed
+
+				tbody#resTblBdy
+					if retailDiffCounterArrLength !== undefined
+						tr
+							td= retailDiffCounterArrLength
+							td= percentChanged
+
+
+		div.rslt-tbl-1
+			table#resTbl
+				thead
+					tr
+						th UPC
+						th Item Name (from margin report)
+						th Old Rtl (from MR)
+						th New Rtl (from IMW)
+						th new-old diff
+
+				tbody#resTblBdy
+					if retailDiff !== undefined
+						each elmnt in retailDiff
+							tr
+								td= elmnt.retailDiffNewTable_upc
+								td= elmnt.retailDiffOldTable_ItemName
+								td= elmnt.retailDiffOldTable_retail
+								td= elmnt.retailDiffNewTable_charm
+								td= elmnt.retailDiff
+
+
