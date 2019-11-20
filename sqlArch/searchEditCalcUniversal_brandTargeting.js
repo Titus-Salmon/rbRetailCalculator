@@ -587,7 +587,7 @@ module.exports = {
                 defaultCharm1Brad, defaultCharm2Brad, defaultCharm3Brad, defaultCharm4Brad)
               revealAppliedMarg(grocLcMtMargin)
             }
-            if (srcRsObj['rb_dept_id'] == '17') { //HBA
+            if (srcRsObj['rb_dept_id'] == '12') { //HBA - had this as 17 & was causing hba items not to get chram applied
               calcCharm(hbaMargin, lowerCutRqdRtlAndrea, lowerCutoffCharm1Andrea, lowerCutoffCharm2Andrea, lowerCutoffCharm3Andrea,
                 lowerCutoffCharm4Andrea, lowerCutoffCharm5Andrea, lowerCutoffCharm6Andrea, lowerCutoffCharm7Andrea, upperCharmRqdRtlAndrea,
                 defaultCharm1Andrea, defaultCharm2Andrea, defaultCharm3Andrea, defaultCharm4Andrea)
