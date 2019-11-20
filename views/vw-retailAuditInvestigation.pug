@@ -1,0 +1,156 @@
+doctype html
+html
+	head
+		link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+
+	body
+		script.
+			console.log('locstor from retailCalcSimple==>', localStorage)
+		include vw-dashboard.pug
+		hr
+
+		div(style="display:block")
+			form#compareTables(action='/retailAuditInvestigation/search' method='POST' accept-charset="UTF-8")
+				label.input-label-1(for='compareTables') Table to Query (MR table)
+				input#wsDiffTable1.input-unit-1(type='text', placeholder='enter TABLE 1 name', name='retailDiffTable1Post', value='')
+				label.input-label-1(for='compareTables') UPC Query Array
+				input#wsDiffTable2.input-unit-1(type='text', placeholder='enter TABLE 2 name', name='upcQueryArr', value='')
+				button#compareTablesBtn(type='submit', form='compareTables') Compare Tables
+
+		div(style="display:block")
+			label.input-label-1(for='retailDiffResults') Retail Diff Results
+			input#retailDiffResults.input-unit-1(type='text', name='retailDiffResultsPost' value=retailDiff)
+
+		button.adminButton#saveCSVreview(type="submit" form="saveCSVreviewPost") Save Results as CSV - Retail Diff
+		form#saveCSVreviewPost(action='/retailAuditInvestigation/saveCSVretailAud' method='POST' accept-charset='UTF-8')
+			label.input-label-1(for='csv') filename:
+				input#csvReview.input-unit-1(type='text', placeholder='enter filename here', name='csvPost', value='')
+			if retailDiff !== undefined
+				label.input-label-1(for='csvReviewHeaders') CSV Review headers:
+					input#csvReviewHeaders.input-unit-1(type='text', placeholder='enter data', name='csvHeadersPost', readonly, style="background-color:#c2d6d6",
+					value="retailDiffNewTable_upc, retailDiffOldTable_ItemName, retailDiffOldTable_retail, retailDiffNewTable_charm, retailDiff, pct0, plusPctg0to5, minusPctg0to5, plusPctg5to10, minusPctg5to10, plusPctg10to15, minusPctg10to15, plusPctg15to20, minusPctg15to20, plusPctg20to25, minusPctg20to25, plusPctg25to30, minusPctg25to30, plusPctg30to35, minusPctg30to35, plusPctg35to40, minusPctg35to40, plusPctg45to50, minusPctg45to50, plusPctg50plus, minusPctg50plus")
+				label.input-label-1(for='csvReviewData') CSV Review data:
+					input#csvReviewData.input-unit-1(type='text', placeholder='enter data', name='csvReviewDataPost', readonly, style="background-color:#c2d6d6", value=retailDiff)
+		div.rslt-tbl-1
+			table#resTbl
+				thead
+					tr
+						th total_#_items_changed
+						th percentChanged
+						th noChangeCnt
+						th plus5Cnt
+						th minus5Cnt
+						th plus10Cnt
+						th minus10Cnt
+						th plus15Cnt
+						th minus15Cnt
+						th plus20Cnt
+						th minus20Cnt
+						th plus25Cnt
+						th minus25Cnt
+						th plus30Cnt
+						th minus30Cnt
+						th plus35Cnt
+						th minus35Cnt
+						th plus40Cnt
+						th minus40Cnt
+						th plus45Cnt
+						th minus45Cnt
+						th plus50Cnt
+						th minus50Cnt
+						th plus50PLUSCnt
+						th minus50PLUSCnt
+
+				tbody#resTblBdy
+					if retailDiffCounterArrLength !== undefined
+						tr
+							td= retailDiffCounterArrLength
+							td= percentChanged
+							td= noChangeCnt
+							td= plus5Cnt
+							td= minus5Cnt
+							td= plus10Cnt
+							td= minus10Cnt
+							td= plus15Cnt
+							td= minus15Cnt
+							td= plus20Cnt
+							td= minus20Cnt
+							td= plus25Cnt
+							td= minus25Cnt
+							td= plus30Cnt
+							td= minus30Cnt
+							td= plus35Cnt
+							td= minus35Cnt
+							td= plus40Cnt
+							td= minus40Cnt
+							td= plus45Cnt
+							td= minus45Cnt
+							td= plus50Cnt
+							td= minus50Cnt
+							td= plus50PLUSCnt
+							td= minus50PLUSCnt
+
+
+		div.rslt-tbl-1
+			table#resTbl
+				thead
+					tr
+						th UPC
+						th Item Name (from margin report)
+						th Old Rtl (from MR)
+						th New Rtl (from IMW)
+						th new-old diff
+						th no change
+						th '+ .00x to .05'
+						th '- .00x to .05'
+						th '+ .05x to .10'
+						th '- .05x to .10'
+						th '+ .10x to .15'
+						th '- .10x to .15'
+						th '+ .15x to .20'
+						th '- .15x to .20'
+						th '+ .20x to .25'
+						th '- .20x to .25'
+						th '+ .25x to .30'
+						th '- .25x to .30'
+						th '+ .35x to .40'
+						th '- .35x to .40'
+						th '+ .40x to .45'
+						th '- .40x to .45'
+						th '+ .45x to .50'
+						th '- .45x to .50'
+						th '+ .50+'
+						th '- .50+'
+
+				tbody#resTblBdy
+					if retailDiff !== undefined
+						each elmnt in retailDiff
+							tr
+								td= elmnt.retailDiffNewTable_upc
+								td= elmnt.retailDiffOldTable_ItemName
+								td= elmnt.retailDiffOldTable_retail
+								td= elmnt.retailDiffNewTable_charm
+								td= elmnt.retailDiff
+								td= elmnt.pct0
+								td= elmnt.plusPctg0to5
+								td= elmnt.minusPctg0to5
+								td= elmnt.plusPctg5to10
+								td= elmnt.minusPctg5to10
+								td= elmnt.plusPctg10to15
+								td= elmnt.minusPctg10to15
+								td= elmnt.plusPctg15to20
+								td= elmnt.minusPctg15to20
+								td= elmnt.plusPctg20to25
+								td= elmnt.minusPctg20to25
+								td= elmnt.plusPctg25to30
+								td= elmnt.minusPctg25to30
+								td= elmnt.plusPctg35to40
+								td= elmnt.minusPctg35to40
+								td= elmnt.plusPctg40to45
+								td= elmnt.minusPctg40to45
+								td= elmnt.plusPctg45to50
+								td= elmnt.minusPctg45to50
+								td= elmnt.plusPctg50plus
+								td= elmnt.minusPctg50plus
+
+
