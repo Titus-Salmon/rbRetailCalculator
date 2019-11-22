@@ -1,0 +1,60 @@
+doctype html
+html
+	head
+		link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+
+	body
+		script.
+			console.log('locstor from retailCalcSimple==>', localStorage)
+		include vw-dashboard.pug
+		hr
+
+		div(style="display:block")
+			form#compareTables(action='/retailAudInvstgtn/search' method='POST' accept-charset="UTF-8")
+				label.input-label-1(for='compareTables') Table to Query (cpltAudInv table)
+				input#wsDiffTable1.input-unit-1(type='text', placeholder='enter TABLE 1 name', name='retailDiffTable1Post', value='')
+				label.input-label-1(for='compareTables') Table to Query (vendorRetailDiffAudit table)
+				input#wsDiffTable2.input-unit-1(type='text', placeholder='enter TABLE 2 name', name='retailDiffTable2Post', value='')
+				button#compareTablesBtn(type='submit', form='compareTables') Compare Tables
+
+		div(style="display:block")
+			label.input-label-1(for='retailDiffResults') Retail Diff Results
+			input#retailDiffResults.input-unit-1(type='text', name='retailDiffResultsPost' value=retailDiff)
+
+		button.adminButton#saveCSVreview(type="submit" form="saveCSVreviewPost") Save Results as CSV - Retail Diff
+		form#saveCSVreviewPost(action='/retailAudInvstgtn/saveCSVretailAud' method='POST' accept-charset='UTF-8')
+			label.input-label-1(for='csv') filename:
+				input#csvReview.input-unit-1(type='text', placeholder='enter filename here', name='csvPost', value='')
+			if auditResults !== undefined
+				label.input-label-1(for='csvReviewHeaders') CSV Review headers:
+					input#csvReviewHeaders.input-unit-1(type='text', placeholder='enter data', name='csvHeadersPost', readonly, style="background-color:#c2d6d6",
+					value="invScanCode, invName, invSize, ordQuantityInOrderUnit, oupName, invLastCost, retailDiffOldTable_retail, retailDiffNewTable_charm")
+				label.input-label-1(for='csvReviewData') CSV Review data:
+					input#csvReviewData.input-unit-1(type='text', placeholder='enter data', name='csvReviewDataPost', readonly, style="background-color:#c2d6d6", value=auditResults)
+		div.rslt-tbl-1
+			table#resTbl
+				thead
+					tr
+						th invScanCode
+						th invName
+						th invSize
+						th ordQuantityInOrderUnit
+						th oupName
+						th invLastCost
+						th retailDiffOldTable_retail
+						th retailDiffNewTable_charm
+
+				tbody#resTblBdy
+					if auditResults !== undefined
+						each elmnt in auditResults
+							tr
+								td= elmnt.invScanCode
+								td= elmnt.invName
+								td= elmnt.invSize
+								td= elmnt.ordQuantityInOrderUnit
+								td= elmnt.oupName
+								td= elmnt.invLastCost
+								td= elmnt.retailDiffOldTable_retail
+								td= elmnt.retailDiffNewTable_charm
+
+

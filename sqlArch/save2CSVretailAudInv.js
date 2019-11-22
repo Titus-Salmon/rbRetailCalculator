@@ -32,8 +32,7 @@ module.exports = {
     } = require('json2csv');
 
     const fields = [
-      "retailDiffNewTable_upc", "retailDiffOldTable_ItemName", "retailDiffOldTable_retail", "retailDiffNewTable_charm", "retailDiff",
-      "pct0", "plusPctg0to5", "minusPctg0to5", "plusPctg5to10", "minusPctg5to10", "plusPctg10to15", "minusPctg10to15", "plusPctg15to20", "minusPctg15to20", "plusPctg20to25", "minusPctg20to25", "plusPctg25to30", "minusPctg25to30", "plusPctg30to35", "minusPctg30to35", "plusPctg35to40", "minusPctg35to40", "plusPctg40to45", "minusPctg40to45", "plusPctg45to50", "minusPctg45to50", "plusPctg50plus", "minusPctg50plus"
+      "invScanCode", "invName", "invSize", "ordQuantityInOrderUnit", "oupName", "invLastCost", "retailDiffOldTable_retail", "retailDiffNewTable_charm"
     ];
     const opts = {
       fields
@@ -43,6 +42,7 @@ module.exports = {
       // console.log('searchResultsForCSVreview from json2csv======>>', searchResultsForCSVreview)
       const parser = new Parser(opts);
       const csv = parser.parse(JSON.parse(req.body['csvReviewDataPost']));
+      // const csv = parser.parse(req.body['csvReviewDataPost']);
       // let csvContainer = []
       csvContainer.push(csv);
       console.log('csv_T0d=====>>', csv);

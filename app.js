@@ -55,6 +55,7 @@ const retailDiffSimpleRouter = require('./routes/rt-retailDiffSimple'); //t0d
 const compareUnequalListsRouter = require('./routes/rt-compareUnequalLists') //t0d
 
 const retailAuditInvestigationRouter = require('./routes/rt-retailAuditInvestigation') //t0d
+const retailAudInvstgtnRouter = require('./routes/rt-retailAudInvstgtn') //t0d
 
 // const wsDiffTableJoinRouter = require('./routes/rt-wsDiffTableJoin') //t0d
 // const retailCalcTableJoinRouter = require('./routes/rt-retailCalcTableJoin') //t0d
@@ -135,6 +136,7 @@ app.use('/retailDiffSimple', retailDiffSimpleRouter) //t0d
 app.use('/compareUnequalLists', compareUnequalListsRouter) //t0d
 
 app.use('/retailAuditInvestigation', retailAuditInvestigationRouter) //t0d
+app.use('/retailAudInvstgtn', retailAudInvstgtnRouter) //t0d
 
 // app.use('/wsDiffTableJoin', wsDiffTableJoinRouter) //t0d
 
