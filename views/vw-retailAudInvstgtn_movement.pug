@@ -31,6 +31,62 @@ html
 					value="invScanCode, invName, invSize, ordQuantityInOrderUnit, oupName, invLastCost, retailDiffOldTable_retail, retailDiffNewTable_charm")
 				label.input-label-1(for='csvReviewData') CSV Review data:
 					input#csvReviewData.input-unit-1(type='text', placeholder='enter data', name='csvReviewDataPost', readonly, style="background-color:#c2d6d6", value=auditResults)
+
+		div.rslt-tbl-1
+			table#resTbl
+				thead
+					tr
+						th noChangeCnt
+						th plus5Cnt
+						th minus5Cnt
+						th plus10Cnt
+						th minus10Cnt
+						th plus15Cnt
+						th minus15Cnt
+						th plus20Cnt
+						th minus20Cnt
+						th plus25Cnt
+						th minus25Cnt
+						th plus30Cnt
+						th minus30Cnt
+						th plus35Cnt
+						th minus35Cnt
+						th plus40Cnt
+						th minus40Cnt
+						th plus45Cnt
+						th minus45Cnt
+						th plus50Cnt
+						th minus50Cnt
+						th plus50PLUSCnt
+						th minus50PLUSCnt
+
+				tbody#resTblBdy
+					if noChangeCnt !== undefined
+						tr
+							td= noChangeCnt
+							td= plus5Cnt
+							td= minus5Cnt
+							td= plus10Cnt
+							td= minus10Cnt
+							td= plus15Cnt
+							td= minus15Cnt
+							td= plus20Cnt
+							td= minus20Cnt
+							td= plus25Cnt
+							td= minus25Cnt
+							td= plus30Cnt
+							td= minus30Cnt
+							td= plus35Cnt
+							td= minus35Cnt
+							td= plus40Cnt
+							td= minus40Cnt
+							td= plus45Cnt
+							td= minus45Cnt
+							td= plus50Cnt
+							td= minus50Cnt
+							td= plus50PLUSCnt
+							td= minus50PLUSCnt
+
 		div.rslt-tbl-1
 			table#resTbl
 				thead
