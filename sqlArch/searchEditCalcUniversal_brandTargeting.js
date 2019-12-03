@@ -467,6 +467,7 @@ module.exports = {
         // srcRsObj['cost'] = rows[i][genericHeaderObj.costHeader] 
         // reviewObj['cost'] = rows[i][genericHeaderObj.costHeader]//INCLUDE in save2CSVreview export data
         srcRsObj['msrp'] = rows[i][genericHeaderObj.msrpHeader] //INCLUDE in csv to export data
+        reviewObj['msrp'] = rows[i][genericHeaderObj.msrpHeader] //INCLUDE in save2CSVreview export data
         srcRsObj['globalMargin'] = globalMargin //do not include in csv to export data
         srcRsObj['rb_dept'] = rows[i][genericHeaderObj.rbDeptHeader]
         reviewObj['rb_dept'] = rows[i][genericHeaderObj.rbDeptHeader] //INCLUDE in save2CSVreview export data 

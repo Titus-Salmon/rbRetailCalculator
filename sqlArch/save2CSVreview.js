@@ -23,8 +23,8 @@ module.exports = {
     } = require('json2csv');
 
     const fields = [
-      "upc", "sku", "name", "pf2", "rb_dept", "rb_dept_id", "rb_dept_margin", "pf3", "cost", "reqdRetail", "charm", "edlp_flag", "sale_flag",
-      "wsDiff_t0d", "discountToApply"
+      "upc", "sku", "name", "pf2", "rb_dept", "rb_dept_id", "rb_dept_margin", "pf3", "cost", "reqdRetail", "charm", "msrp",
+      "edlp_flag", "sale_flag", "wsDiff_t0d", "discountToApply"
     ];
     const opts = {
       fields
