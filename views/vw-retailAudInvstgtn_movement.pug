@@ -1,0 +1,102 @@
+doctype html
+html
+	head
+		link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+
+	body
+		script.
+			console.log('locstor from retailCalcSimple==>', localStorage)
+		include vw-dashboard.pug
+		hr
+
+		div(style="display:block")
+			form#compareTables(action='/retailAudInvstgtn_movement/search' method='POST' accept-charset="UTF-8")
+				label.input-label-1(for='compareTables') Table to Query (cpltAudInv table)
+				input#wsDiffTable1.input-unit-1(type='text', placeholder='enter TABLE 1 name', name='retailDiffTable1Post', value='')
+				label.input-label-1(for='compareTables') Table to Query (vendorRetailDiffAudit table)
+				input#wsDiffTable2.input-unit-1(type='text', placeholder='enter TABLE 2 name', name='retailDiffTable2Post', value='')
+				button#compareTablesBtn(type='submit', form='compareTables') Compare Tables
+
+		div(style="display:block")
+			label.input-label-1(for='retailDiffResults') Retail Diff Results
+			input#retailDiffResults.input-unit-1(type='text', name='retailDiffResultsPost' value=retailDiff)
+
+		button.adminButton#saveCSVreview(type="submit" form="saveCSVreviewPost") Save Results as CSV - Retail Diff
+		form#saveCSVreviewPost(action='/retailAudInvstgtn_movement/save2CSVretailAudInv_movement' method='POST' accept-charset='UTF-8')
+			label.input-label-1(for='csv') filename:
+				input#csvReview.input-unit-1(type='text', placeholder='enter filename here', name='csvPost', value='')
+			if auditResults !== undefined
+				label.input-label-1(for='csvReviewHeaders') CSV Review headers:
+					input#csvReviewHeaders.input-unit-1(type='text', placeholder='enter data', name='csvHeadersPost', readonly, style="background-color:#c2d6d6",
+					value="invScanCode, invName, invSize, ordQuantityInOrderUnit, oupName, invLastCost, retailDiffOldTable_retail, retailDiffNewTable_charm")
+				label.input-label-1(for='csvReviewData') CSV Review data:
+					input#csvReviewData.input-unit-1(type='text', placeholder='enter data', name='csvReviewDataPost', readonly, style="background-color:#c2d6d6", value=auditResults)
+		div.rslt-tbl-1
+			table#resTbl
+				thead
+					tr
+						th upc
+						th name
+						th ytd
+						th dept
+						th retailDiffOldTable_retail
+						th retailDiffNewTable_charm
+						th pct0
+						th plusPctg0to5
+						th minusPctg0to5
+						th plusPctg5to10
+						th minusPctg5to10
+						th plusPctg10to15
+						th minusPctg10to15
+						th plusPctg15to20
+						th minusPctg15to20
+						th plusPctg20to25
+						th minusPctg20to25
+						th plusPctg25to30
+						th minusPctg25to30
+						th plusPctg30to35
+						th minusPctg30to35
+						th plusPctg35to40
+						th minusPctg35to40
+						th plusPctg40to45
+						th minusPctg40to45
+						th plusPctg45to50
+						th minusPctg45to50
+						th plusPctg50plus
+						th minusPctg50plus
+
+				tbody#resTblBdy
+					if auditResults !== undefined
+						each elmnt in auditResults
+							tr
+								td= elmnt.upc
+								td= elmnt.name
+								td= elmnt.ytd
+								td= elmnt.dept
+								td= elmnt.retailDiffOldTable_retail
+								td= elmnt.retailDiffNewTable_charm
+								td= elmnt.pct0
+								td= elmnt.plusPctg0to5
+								td= elmnt.minusPctg0to5
+								td= elmnt.plusPctg5to10
+								td= elmnt.minusPctg5to10
+								td= elmnt.plusPctg10to15
+								td= elmnt.minusPctg10to15
+								td= elmnt.plusPctg15to20
+								td= elmnt.minusPctg15to20
+								td= elmnt.plusPctg20to25
+								td= elmnt.minusPctg20to25
+								td= elmnt.plusPctg25to30
+								td= elmnt.minusPctg25to30
+								td= elmnt.plusPctg30to35
+								td= elmnt.minusPctg30to35
+								td= elmnt.plusPctg35to40
+								td= elmnt.minusPctg35to40
+								td= elmnt.plusPctg40to45
+								td= elmnt.minusPctg40to45
+								td= elmnt.plusPctg45to50
+								td= elmnt.minusPctg45to50
+								td= elmnt.plusPctg50plus
+								td= elmnt.minusPctg50plus
+
+
