@@ -171,8 +171,10 @@ module.exports = {
       //v//20191121 MARGIN REPORT ISSUE///////////////////////////////////////////////////////////////////////////////////////////////////////////
       if (splitFieldResult[i] !== 'discount_cost' && splitFieldResult[i] !== 'item_cost' && splitFieldResult[i] !== 'rb_cost_status' && splitFieldResult[i].includes('cost')) { //Last Cost(?) ==>updated WS
         genericHeaderObj.costHeader = splitFieldResult[i]
-      } //<-- targeted rb_cost; this was causing items that we apparently don't carry to be included in DOM table,
-      //and also consequently in retail IMW, which we don't want... SHOULD target item_cost; see below
+      } //<-- targeted rb_cost; this was causing items that we apparently don't carry to be included in DOM table, 
+      //and also consequently in retail IMW, which we don't want... SHOULD target item_cost; see below (***20191206 N.B. actually, DO want to target rb_cost...
+      //ITEMS THAT COME UP AS BLANK ("") IN MARGIN REPORT ARE ITEMS WHERE THE vendor cat UPC & SKU don't match the Catapult UPC & SKU
+      //NEED TO ***NOT*** INCLUDE THOSE IN THE RETAIL GENERATOR)
       //N.B. IF item_cost = "", IT MEANS THIS ITEM IS NOT IN THE CURRENT EDI CATALOG (BUT IT MAY HAVE A rb_cost, BECAUSE IT WAS ONCE A PRODUCT WE ORDERED)
       //v//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       //20191121 N.B. on above: this isn't entirely correct. There is actully an error in Tom's Margin Report that causes it to think some items
@@ -189,6 +191,9 @@ module.exports = {
 
       if (splitFieldResult[i].includes('item_price') || splitFieldResult[i].includes('msrp')) { //Suggested Retail ==>msrp?
         genericHeaderObj.msrpHeader = splitFieldResult[i]
+      }
+      if (splitFieldResult[i] == 'rb_price') { //
+        genericHeaderObj.rbPriceHeader = splitFieldResult[i]
       }
       if (splitFieldResult[i] == 'rb_dept') { //
         genericHeaderObj.rbDeptHeader = splitFieldResult[i]
@@ -468,6 +473,10 @@ module.exports = {
         // reviewObj['cost'] = rows[i][genericHeaderObj.costHeader]//INCLUDE in save2CSVreview export data
         srcRsObj['msrp'] = rows[i][genericHeaderObj.msrpHeader] //INCLUDE in csv to export data
         reviewObj['msrp'] = rows[i][genericHeaderObj.msrpHeader] //INCLUDE in save2CSVreview export data
+
+        srcRsObj['rb_price'] = rows[i][genericHeaderObj.rbPriceHeader] //INCLUDE in csv to export data
+        reviewObj['rb_price'] = rows[i][genericHeaderObj.rbPriceHeader] //INCLUDE in save2CSVreview export data
+
         srcRsObj['globalMargin'] = globalMargin //do not include in csv to export data
         srcRsObj['rb_dept'] = rows[i][genericHeaderObj.rbDeptHeader]
         reviewObj['rb_dept'] = rows[i][genericHeaderObj.rbDeptHeader] //INCLUDE in save2CSVreview export data 
